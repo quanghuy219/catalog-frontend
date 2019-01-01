@@ -1,15 +1,22 @@
 import React from 'react';
 
-function Item() {
-  return (
-    <div>
-      <h3>Soccer Ball</h3>
-      <pre>This is a soccer ball</pre>
+class Item extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-      <a href="#/edit">Edit</a>
-      <a href="#/delete">Delete</a>
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        <h3>Soccer Ball</h3>
+        <pre>This is a soccer ball</pre>
+
+        <a href="#/edit">Edit</a>
+        <a href="#/delete">Delete</a>
+      </div>
+    );
+  }
 }
 
 export default Item;

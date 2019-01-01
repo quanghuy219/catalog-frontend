@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
   return (
     <nav className="navbar navbar-expand-sm navbar-light bg-light">
-      <a className="navbar-brand" href="/">Catalog</a>
+      <Link className="navbar-brand" to="/">Catalog</Link>
       <button
         className="navbar-toggler"
         type="button"
@@ -23,7 +24,7 @@ function Navbar() {
             <a href="/logout" className="btn btn-danger nav-button">Logout</a>
           </li>
           <li className="nav-item">
-            <a href="/login" className="btn btn-default nav-button">Login</a>
+            <Link to="/login" className="btn btn-default nav-button">Login</Link>
           </li>
         </ul>
       </div>

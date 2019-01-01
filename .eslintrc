@@ -18,6 +18,7 @@
                 "some": [ "nesting", "id" ]
             }
         }],
-        "max-len": [2, 100]
+        "max-len": [2, 100],
+        "class-methods-use-this": [0]
     }
 }
