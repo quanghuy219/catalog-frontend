@@ -6,7 +6,7 @@ function fetchItems() {
     ).then(json => (
       dispatch({
         type: 'FETCH_ITEMS',
-        categories: json.data.items,
+        items: json.data.items,
       })
     ));
 }
