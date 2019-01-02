@@ -1,6 +1,8 @@
-const categories = function setCategoryActions(state = [], action) {
+import { FETCH_CATEGORIES } from '../actions/Categories';
+
+const categoriesReducer = function setCategoryActions(state = [], action) {
   switch (action.type) {
-    case 'FETCH_CATEGORIES': {
+    case FETCH_CATEGORIES: {
       return [...action.categories];
     }
 
@@ -9,4 +11,4 @@ const categories = function setCategoryActions(state = [], action) {
   }
 };
 
-export default categories;
+export default categoriesReducer;

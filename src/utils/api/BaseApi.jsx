@@ -16,7 +16,6 @@ class BaseApi {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-
       body: qs.stringify(params),
     };
 
@@ -25,10 +24,7 @@ class BaseApi {
     }
 
     return fetch(`${URL}${uri}`, options)
-      .then(
-        response => response.json(),
-        error => console.log('An error occured', error),
-      );
+      .then(response => response.json());
   }
 
   put(uri, params, token = '') {

@@ -8,7 +8,7 @@ export function fetchItems() {
   return dispatch => itemApi.get('/api/items')
     .then(res => (
       dispatch({
-        type: 'FETCH_ITEMS',
+        type: FETCH_ITEMS,
         items: res.data.items,
       })
     ));

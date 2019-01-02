@@ -1,6 +1,8 @@
-import { LOGIN } from '../actions/User';
+import { LOGIN, LOGOUT } from '../actions/User';
 
-const user = function setUserAction(state = {}, action) {
+const initialState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
+
+const userReducer = function setUserAction(state = initialState, action) {
   switch (action.type) {
     case LOGIN: {
       return {
@@ -9,10 +11,13 @@ const user = function setUserAction(state = {}, action) {
         token: action.token,
       };
     }
+    case LOGOUT: {
+      return {};
+    }
 
     default:
       return state;
   }
 };
 
-export default user;
+export default userReducer;

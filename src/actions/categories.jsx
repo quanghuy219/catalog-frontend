@@ -8,7 +8,7 @@ export function fetchCategories() {
   return dispatch => categoryApi.get('/api/categories')
     .then(res => (
       dispatch({
-        type: 'FETCH_CATEGORIES',
+        type: FETCH_CATEGORIES,
         categories: res.data.categories,
       })
     ));
