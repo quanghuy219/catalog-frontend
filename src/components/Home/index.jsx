@@ -1,29 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import fetchItems from '../../actions/items';
-import fetchCategories from '../../actions/categories';
+import { fetchItems } from '../../actions/Items';
+import { fetchCategories } from '../../actions/Categories';
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentDidMount() {
-    this.props.fetchItems();
-    this.props.fetchCategories();
+    const props = { ...this.props };
+    props.fetchItems();
+    props.fetchCategories();
   }
 
   render() {
+    const props = { ...this.props };
     return (
       <div className="row">
         <div className="col-md-4 col-sm-4 col-5" style={{ borderRight: '1px solid #bbbec1' }}>
           <h4 className="col-header">Categories</h4>
           <ul>
             {
-              this.props.categories.map(category => (
-                <li key={category.id}><Link to="#">{category.name}</Link></li>
+              props.categories.map(category => (
+                <li key={category.id}><Link to="/#">{category.name}</Link></li>
               ))
             }
           </ul>
@@ -33,7 +30,7 @@ class Home extends React.Component {
           <h4 className="col-header">Latest Items</h4>
           <ul>
             {
-              this.props.items.map(item => (
+              props.items.map(item => (
                 <li key={item.id}>
                   <Link to="/item">{item.name}</Link>
                   <span>

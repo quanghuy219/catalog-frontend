@@ -14,7 +14,7 @@ import 'bootstrap/dist/js/bootstrap';
 
 const store = createStore(
   reducers,
-  applyMiddleware(logger, ReduxPromise, thunk),
+  applyMiddleware(logger, thunk),
 );
 
 ReactDOM.render(

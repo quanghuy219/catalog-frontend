@@ -1,14 +1,15 @@
-function fetchItems() {
-  return dispatch => fetch('http://localhost:5000/api/items')
-    .then(
-      response => response.json(),
-      error => console.log(error),
-    ).then(json => (
+import ItemApi from '../utils/api/ItemApi';
+
+const itemApi = new ItemApi();
+
+export const FETCH_ITEMS = 'FETCH_ITEMS';
+
+export function fetchItems() {
+  return dispatch => itemApi.get('/api/items')
+    .then(res => (
       dispatch({
         type: 'FETCH_ITEMS',
-        items: json.data.items,
+        items: res.data.items,
       })
     ));
 }
-
-export default fetchItems;

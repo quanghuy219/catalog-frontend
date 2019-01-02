@@ -1,10 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import GoogleLogin from 'react-google-login';
+import { login } from '../../actions/User';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.onSigninSuccess = this.onSigninSuccess.bind(this);
+    this.onSigninFailure = this.onSigninFailure.bind(this);
+  }
+
+  onSigninSuccess(code) {
+    const props = { ...this.props };
+    props.login(code);
+  }
+
+  onSigninFailure(error) {
+    console.log(error);
   }
 
   render() {
@@ -27,4 +40,10 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapDispatchToProps = dispatch => (
+  {
+    login: code => dispatch(login(code)),
+  }
+);
+
+export default connect(null, mapDispatchToProps)(Login);

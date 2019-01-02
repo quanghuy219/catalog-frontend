@@ -1,14 +1,15 @@
-function fetchCategories() {
-  return dispatch => fetch('http://localhost:5000/api/categories')
-    .then(
-      response => response.json(),
-      error => console.log(error),
-    ).then(json => (
+import CategoryApi from '../utils/api/CategoryApi';
+
+const categoryApi = new CategoryApi();
+
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
+
+export function fetchCategories() {
+  return dispatch => categoryApi.get('/api/categories')
+    .then(res => (
       dispatch({
         type: 'FETCH_CATEGORIES',
-        categories: json.data.categories,
+        categories: res.data.categories,
       })
     ));
 }
-
-export default fetchCategories;

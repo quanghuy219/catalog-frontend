@@ -1,10 +1,12 @@
+import { LOGIN } from '../actions/User';
+
 const user = function setUserAction(state = {}, action) {
   switch (action.type) {
-    case 'FETCH_USER_DATA': {
+    case LOGIN: {
       return {
-        id: action.data.user.id,
-        name: action.data.user.name,
-        token: action.data.token,
+        id: action.id,
+        name: action.name,
+        token: action.token,
       };
     }
 
