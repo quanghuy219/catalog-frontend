@@ -1,23 +1,34 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { logout } from '../../actions/User';
+import { logout } from '../actions/User';
 
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.onClickLogout = this.onClickLogout.bind(this);
+  }
+
+  onClickLogout() {
+    const props = { ...this.props };
+    props.logout();
   }
 
   render() {
     const props = { ...this.props };
     let NavbarContent;
-    if (props.user) {
+    if (props.user.name) {
       NavbarContent = (
         <ul className="navbar-nav">
           <li className="nav-item nav-username">{props.user.name}</li>
           <li className="nav-item">
-            <a href="/logout" className="btn btn-danger nav-button">Logout</a>
+            <button
+              type="submit"
+              className="btn btn-danger nav-button"
+              onClick={this.onClickLogout}
+            >
+              Logout
+            </button>
           </li>
         </ul>
       );
@@ -70,7 +81,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
-    logout: dispatch(logout()),
+    logout: () => dispatch(logout()),
   }
 );
 

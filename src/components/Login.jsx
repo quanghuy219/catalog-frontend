@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GoogleLogin from 'react-google-login';
-import { login } from '../../actions/User';
+import { login } from '../actions/User';
 
 class Login extends React.Component {
   constructor(props) {
@@ -13,7 +13,11 @@ class Login extends React.Component {
 
   onSigninSuccess(code) {
     const props = { ...this.props };
-    props.login(code);
+    const testcode = {
+      code: `${code.code}abc`,
+    };
+
+    props.login(testcode);
   }
 
   onSigninFailure(error) {

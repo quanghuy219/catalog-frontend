@@ -1,14 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchItems } from '../../actions/Items';
-import { fetchCategories } from '../../actions/Categories';
+import PropTypes from 'prop-types';
+import { toast } from 'react-toastify';
+import { fetchItems } from '../actions/Items';
+import { fetchCategories } from '../actions/Categories';
 
 class Home extends React.Component {
-  componentDidMount() {
-    const props = { ...this.props };
+  constructor(props) {
+    super(props);
     props.fetchItems();
     props.fetchCategories();
+  }
+
+  componentDidMount() {
+    toast.warn('Hello');
+    toast.error('World');
   }
 
   render() {
@@ -26,11 +33,17 @@ class Home extends React.Component {
           </ul>
         </div>
         <div className="col-md-8 col-sm-8 col-7">
-          <Link to="/new-item">Add Item</Link>
+          {(() => {
+            if (props.user.name) {
+              return <Link to="/new-item">Add Item</Link>;
+            }
+            return '';
+          }
+          )()}
           <h4 className="col-header">Latest Items</h4>
           <ul>
             {
-              props.items.map(item => (
+              props.items.items.map(item => (
                 <li key={item.id}>
                   <Link to="/item">{item.name}</Link>
                   <span>
@@ -48,10 +61,21 @@ class Home extends React.Component {
   }
 }
 
+Home.propTypes = {
+  fetchItems: PropTypes.func,
+  fetchCategories: PropTypes.func,
+};
+
+Home.defaultProps = {
+  fetchItems: null,
+  fetchCategories: null,
+};
+
 const mapStateToProps = state => (
   {
     items: state.items,
     categories: state.categories,
+    user: state.user,
   }
 );
 
