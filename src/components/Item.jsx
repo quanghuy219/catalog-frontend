@@ -14,7 +14,7 @@ class Item extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const props = { ...this.props };
     const itemId = props.match.params.item_id;
     fetchItem(itemId)
@@ -28,12 +28,21 @@ class Item extends React.Component {
 
   render() {
     const state = { ...this.state };
+    const props = { ...this.props };
+    let EditButtons = '';
+    if (state.user_id === props.user.id) {
+      EditButtons = (
+        <div className="edit-buttons">
+          <Link to="#/edit">Edit</Link>
+          <Link to="#/delete">Delete</Link>
+        </div>
+      );
+    }
     return (
       <div>
         <h3>{state.name}</h3>
         <pre>{state.description}</pre>
-        <Link to="#/edit">Edit</Link>
-        <Link to="#/delete">Delete</Link>
+        { EditButtons }
       </div>
     );
   }
