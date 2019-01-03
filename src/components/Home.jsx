@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
 import { fetchItems } from '../actions/Items';
 import { fetchCategories } from '../actions/Categories';
 
@@ -11,11 +10,6 @@ class Home extends React.Component {
     super(props);
     props.fetchItems();
     props.fetchCategories();
-  }
-
-  componentDidMount() {
-    toast.warn('Hello');
-    toast.error('World');
   }
 
   render() {

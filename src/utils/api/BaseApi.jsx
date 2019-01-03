@@ -4,10 +4,13 @@ import URL from '../Constant';
 class BaseApi {
   get(uri) {
     return fetch(`${URL}${uri}`)
-      .then(
-        response => response.json(),
-        error => console.log('An error occured', error),
-      );
+      .then((response) => {
+        const jsonResponse = response.json();
+        if (response.ok) {
+          return jsonResponse;
+        }
+        return jsonResponse.then((err) => { throw err; });
+      });
   }
 
   post(uri, params, token = '') {
@@ -24,7 +27,13 @@ class BaseApi {
     }
 
     return fetch(`${URL}${uri}`, options)
-      .then(response => response.json());
+      .then((response) => {
+        const jsonResponse = response.json();
+        if (response.ok) {
+          return jsonResponse;
+        }
+        return jsonResponse.then((err) => { throw err; });
+      });
   }
 
   put(uri, params, token = '') {
@@ -41,10 +50,13 @@ class BaseApi {
     }
 
     return fetch(`${URL}${uri}`, options)
-      .then(
-        response => response.json(),
-        error => console.log('An error occured', error),
-      );
+      .then((response) => {
+        const jsonResponse = response.json();
+        if (response.ok) {
+          return jsonResponse;
+        }
+        return jsonResponse.then((err) => { throw err; });
+      });
   }
 
   delete(uri, params, token = '') {
@@ -61,10 +73,13 @@ class BaseApi {
     }
 
     return fetch(`${URL}${uri}`, options)
-      .then(
-        response => response.json(),
-        error => console.log('An error occured', error),
-      );
+      .then((response) => {
+        const jsonResponse = response.json();
+        if (response.ok) {
+          return jsonResponse;
+        }
+        return jsonResponse.then((err) => { throw err; });
+      });
   }
 }
 

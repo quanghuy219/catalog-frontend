@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import GoogleLogin from 'react-google-login';
+import { toast } from 'react-toastify';
 import { login } from '../actions/User';
 
 class Login extends React.Component {
@@ -13,15 +14,11 @@ class Login extends React.Component {
 
   onSigninSuccess(code) {
     const props = { ...this.props };
-    const testcode = {
-      code: `${code.code}abc`,
-    };
-
-    props.login(testcode);
+    props.login(code);
   }
 
-  onSigninFailure(error) {
-    console.log(error);
+  onSigninFailure() {
+    toast.error('Something went wrong. Please try again later');
   }
 
   render() {
@@ -44,10 +41,17 @@ class Login extends React.Component {
   }
 }
 
+const mapStateToProps = state => (
+  {
+    error: state.error,
+    user: state.user,
+  }
+);
+
 const mapDispatchToProps = dispatch => (
   {
     login: code => dispatch(login(code)),
   }
 );
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
