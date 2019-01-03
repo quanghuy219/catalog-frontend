@@ -1,4 +1,4 @@
-import { FETCH_ITEMS } from '../actions/Items';
+import { FETCH_ITEMS, CREATE_ITEM } from '../actions/Items';
 
 const initialState = {
   items: [],
@@ -13,7 +13,11 @@ const itemsReducer = function setItemActions(state = initialState, action) {
         items: [...action.items],
       };
     }
-
+    case CREATE_ITEM: {
+      return {
+        items: [action.item, ...state.items],
+      };
+    }
     default:
       return state;
   }

@@ -11,14 +11,15 @@ export function login(code) {
       const user = {
         name: json.data.user.name,
         id: json.data.user.id,
-        token: json.data.token,
       };
+      const { token } = json.data;
       localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
       return dispatch({
         type: LOGIN,
         name: user.name,
         id: user.id,
-        token: user.token,
+        token,
       });
     })
     .catch((err) => {
@@ -38,8 +39,12 @@ export function logout() {
   return (dispatch) => {
     // Delete user information in localStorage
     const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
     if (user) {
       localStorage.removeItem('user');
+    }
+    if (token) {
+      localStorage.removeItem('token');
     }
     dispatch({
       type: LOGOUT,

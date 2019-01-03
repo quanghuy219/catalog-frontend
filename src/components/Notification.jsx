@@ -17,9 +17,6 @@ class Notification extends React.Component {
     );
   }
 }
-Notification.propTypes = {
-  error: PropTypes.object,
-};
 
 Notification.defaultProps = {
   error: {},

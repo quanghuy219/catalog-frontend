@@ -20,6 +20,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/item/:item_id" component={Item} />
             <Route path="/new-item" component={AddItemForm} />
+            <Route component={Home} />
           </Switch>
         </div>
         <Notification />

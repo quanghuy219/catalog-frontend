@@ -1,6 +1,7 @@
 import { LOGIN, LOGOUT } from '../actions/User';
 
 const initialState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
+initialState.token = localStorage.getItem('token');
 
 const userReducer = function setUserAction(state = initialState, action) {
   switch (action.type) {

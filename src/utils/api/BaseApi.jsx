@@ -13,7 +13,7 @@ class BaseApi {
       });
   }
 
-  post(uri, params, token = '') {
+  post(uri, params, requireToken = true) {
     const options = {
       method: 'POST',
       headers: {
@@ -22,7 +22,8 @@ class BaseApi {
       body: qs.stringify(params),
     };
 
-    if (token) {
+    if (requireToken) {
+      const token = localStorage.getItem('token');
       options.headers.Authorization = `Bearer ${token}`;
     }
 
@@ -36,7 +37,7 @@ class BaseApi {
       });
   }
 
-  put(uri, params, token = '') {
+  put(uri, params, requireToken = true) {
     const options = {
       methods: 'PUT',
       body: qs.stringify(params),
@@ -45,8 +46,9 @@ class BaseApi {
       },
     };
 
-    if (token) {
-      options.headers.authorization = `Bearer ${token}`;
+    if (requireToken) {
+      const token = localStorage.getItem('token');
+      options.headers.Authorization = `Bearer ${token}`;
     }
 
     return fetch(`${URL}${uri}`, options)
@@ -59,17 +61,18 @@ class BaseApi {
       });
   }
 
-  delete(uri, params, token = '') {
+  delete(uri, params, requireToken = true) {
     const options = {
-      methods: 'PUT',
+      methods: 'DELETE',
       body: qs.stringify(params),
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
       },
     };
 
-    if (token) {
-      options.headers.authorization = `Bearer ${token}`;
+    if (requireToken) {
+      const token = localStorage.getItem('token');
+      options.headers.Authorization = `Bearer ${token}`;
     }
 
     return fetch(`${URL}${uri}`, options)

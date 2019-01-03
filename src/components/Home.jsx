@@ -39,7 +39,7 @@ class Home extends React.Component {
             {
               props.items.items.map(item => (
                 <li key={item.id}>
-                  <Link to="/item">{item.name}</Link>
+                  <Link to={`/item/${item.id}`}>{item.name}</Link>
                   <span>
                     (
                     {item.category.name}
