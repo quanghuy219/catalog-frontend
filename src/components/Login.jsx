@@ -14,7 +14,8 @@ class Login extends React.Component {
 
   onSigninSuccess(code) {
     const props = { ...this.props };
-    props.login(code);
+    props.login(code)
+      .then(() => props.history.push('/'));
   }
 
   onSigninFailure() {

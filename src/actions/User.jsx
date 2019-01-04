@@ -15,12 +15,13 @@ export function login(code) {
       const { token } = json.data;
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
-      return dispatch({
+      dispatch({
         type: LOGIN,
         name: user.name,
         id: user.id,
         token,
       });
+      return user;
     })
     .catch((err) => {
       const error = {
