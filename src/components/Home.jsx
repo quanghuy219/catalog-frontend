@@ -1,15 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchItems } from '../actions/Items';
+import { fetchItems, fetchItemsByCategory } from '../actions/Items';
 import { fetchCategories } from '../actions/Categories';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    this.showItemByCategory = this.showItemByCategory.bind(this);
     props.fetchItems();
     props.fetchCategories();
+  }
+
+  showItemByCategory(categoryID) {
+    const props = { ...this.props };
+    props.fetchItemsByCategory(categoryID);
   }
 
   render() {
@@ -19,9 +25,22 @@ class Home extends React.Component {
         <div className="col-md-4 col-sm-4 col-5" style={{ borderRight: '1px solid #bbbec1' }}>
           <h4 className="col-header">Categories</h4>
           <ul>
+            <li><NavLink to="/" onClick={() => props.fetchItems()}>All</NavLink></li>
             {
               props.categories.map(category => (
-                <li key={category.id}><Link to="/#">{category.name}</Link></li>
+                <li key={category.id}>
+                  <NavLink
+                    to={`#${category.name}`}
+                    activeStyle={{
+                      color: 'red',
+                    }}
+                    onClick={() => {
+                      this.showItemByCategory(category.id);
+                    }}
+                  >
+                    {category.name}
+                  </NavLink>
+                </li>
               ))
             }
           </ul>
@@ -77,6 +96,7 @@ const mapDispatchToProps = dispatch => (
   {
     fetchItems: () => dispatch(fetchItems()),
     fetchCategories: () => dispatch(fetchCategories()),
+    fetchItemsByCategory: categoryID => dispatch(fetchItemsByCategory(categoryID)),
   }
 );
 

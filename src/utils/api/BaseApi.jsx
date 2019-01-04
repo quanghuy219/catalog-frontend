@@ -1,4 +1,3 @@
-import qs from 'qs';
 import URL from '../Constant';
 
 class BaseApi {
@@ -17,9 +16,9 @@ class BaseApi {
     const options = {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: qs.stringify(params),
+      body: JSON.stringify(params),
     };
 
     if (requireToken) {
@@ -30,20 +29,22 @@ class BaseApi {
     return fetch(`${URL}${uri}`, options)
       .then((response) => {
         const jsonResponse = response.json();
+        // Return resolve promise on success response
         if (response.ok) {
           return jsonResponse;
         }
+        // Throw new error on error response
         return jsonResponse.then((err) => { throw err; });
       });
   }
 
   put(uri, params, requireToken = true) {
     const options = {
-      methods: 'PUT',
-      body: qs.stringify(params),
+      method: 'PUT',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify(params),
     };
 
     if (requireToken) {
@@ -63,11 +64,11 @@ class BaseApi {
 
   delete(uri, params, requireToken = true) {
     const options = {
-      methods: 'DELETE',
-      body: qs.stringify(params),
+      method: 'DELETE',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify(params),
     };
 
     if (requireToken) {

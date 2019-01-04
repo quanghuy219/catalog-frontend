@@ -1,19 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { fetchCategories } from '../actions/Categories';
-import { createItem } from '../actions/Items';
+import { createItem, updateItem } from '../actions/Items';
 
-class AddItemForm extends React.Component {
+class Form extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      description: '',
+      name: props.name,
+      description: props.description,
     };
+    this.isEditing = props.isEditing;
     this.handleChangeName = this.handleChangeName.bind(this);
     this.handleChangeDescription = this.handleChangeDescription.bind(this);
     this.handleChangeCategory = this.handleChangeCategory.bind(this);
     this.submit = this.submit.bind(this);
+    this.edit = this.edit.bind(this);
+    this.create = this.create.bind(this);
   }
 
   componentDidMount() {
@@ -23,9 +27,15 @@ class AddItemForm extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const props = { ...nextProps };
-    this.setState({
-      category_id: props.categories[0].id,
-    });
+    if ('item' in props) {
+      this.setState({
+        ...props.item,
+      });
+    } else { // set initial category for adding item
+      this.setState({
+        category_id: props.categories[0].id,
+      });
+    }
   }
 
   handleChangeName(e) {
@@ -46,10 +56,21 @@ class AddItemForm extends React.Component {
     });
   }
 
-  submit(e) {
-    e.preventDefault();
+  submit() {
+    const state = { ...this.state };
+    if (!state.name || !state.description) {
+      return false;
+    }
+    if (this.isEditing) {
+      return this.edit();
+    }
+    return this.create();
+  }
+
+  create() {
     const props = { ...this.props };
-    props.createItem(this.state)
+    const state = { ...this.state };
+    props.createItem(state)
       .then((data) => {
         this.setState({
           name: '',
@@ -61,6 +82,21 @@ class AddItemForm extends React.Component {
       });
   }
 
+  edit() {
+    const props = { ...this.props };
+    const state = { ...this.state };
+    props.updateItem(state.id, state)
+      .then((data) => {
+        this.setState({
+          name: '',
+          description: '',
+        });
+        if (data) {
+          props.onEditSuccess();
+        }
+      });
+  }
+
   render() {
     const item = { ...this.state };
     const props = { ...this.props };
@@ -68,17 +104,18 @@ class AddItemForm extends React.Component {
     return (
       <div>
         <h2>New Item</h2>
-        <form>
+        <form method="post" onSubmit={e => e.preventDefault()}>
           <div className="form-group">
             <label htmlFor="name">
               Name
               <input
                 type="text"
                 id="name"
-                className="form-control"
+                className="form-control text-input"
                 name="name"
                 value={item.name}
                 onChange={this.handleChangeName}
+                maxLength="100"
                 required
               />
             </label>
@@ -87,7 +124,13 @@ class AddItemForm extends React.Component {
           <div className="form-group">
             <label htmlFor="category">
               Category
-              <select id="category" className="form-control" name="category_id" value={item.category_id} onChange={this.handleChangeCategory}>
+              <select
+                id="category"
+                className="form-control"
+                name="category_id"
+                value={item.category_id}
+                onChange={this.handleChangeCategory}
+              >
                 {
                   props.categories.map(category => (
                     <option key={category.id} value={category.id}>{category.name}</option>
@@ -102,9 +145,9 @@ class AddItemForm extends React.Component {
               Description
               <textarea
                 id="description"
-                className="form-control"
+                className="form-control text-input"
                 name="description"
-                rows="3"
+                rows="10"
                 value={item.description}
                 onChange={this.handleChangeDescription}
                 required
@@ -120,6 +163,18 @@ class AddItemForm extends React.Component {
   }
 }
 
+Form.propTypes = {
+  name: PropTypes.string,
+  description: PropTypes.string,
+  isEditing: PropTypes.bool,
+};
+
+Form.defaultProps = {
+  name: '',
+  description: '',
+  isEditing: false,
+};
+
 const mapStateToProps = state => (
   {
     categories: state.categories,
@@ -131,7 +186,8 @@ const mapDispatchToProps = dispatch => (
   {
     fetchCategories: () => dispatch(fetchCategories()),
     createItem: params => dispatch(createItem(params)),
+    updateItem: (itemID, params) => dispatch(updateItem(itemID, params)),
   }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddItemForm);
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

@@ -59,13 +59,6 @@ class Navbar extends React.Component {
         <div className="collapse navbar-collapse navbar-items" id="navbarContent">
           <ul className="navbar-nav">
             {NavbarContent}
-            {/* <li className="nav-item nav-username">{props.user.name}</li>
-            <li className="nav-item">
-              <a href="/logout" className="btn btn-danger nav-button">Logout</a>
-            </li>
-            <li className="nav-item">
-              <Link to="/login" className="btn btn-default nav-button">Login</Link>
-            </li> */}
           </ul>
         </div>
       </nav>

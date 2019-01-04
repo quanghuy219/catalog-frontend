@@ -1,12 +1,16 @@
 import BaseApi from './BaseApi';
 
 class ItemApi extends BaseApi {
-  get(uri) {
-    return super.get(uri);
+  post(data) {
+    return super.post('/api/items', data);
   }
 
-  post(uri, data) {
-    return super.post(uri, data);
+  put(itemID, data) {
+    return super.put(`/api/items/${itemID}`, data);
+  }
+
+  delete(itemID) {
+    return super.delete(`/api/items/${itemID}`);
   }
 }
 
