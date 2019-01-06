@@ -12,7 +12,7 @@ import './App.css';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/catalog-frontend">
       <div className="App">
         <Navbar />
         <div className="container main-panel">
