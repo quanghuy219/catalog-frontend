@@ -8,7 +8,6 @@ class Notification extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { message, error } = { ...nextProps.error };
     toast.error(message);
-    Object.keys(error).forEach(key => toast.error(`${key}: ${error[key]}`));
   }
 
   render() {

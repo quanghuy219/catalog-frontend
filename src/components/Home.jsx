@@ -30,7 +30,7 @@ class Home extends React.Component {
               props.categories.map(category => (
                 <li key={category.id}>
                   <NavLink
-                    to={`#${category.name}`}
+                    to={`#${category.name.replace(' ', '-')}`}
                     activeStyle={{
                       color: 'red',
                     }}
