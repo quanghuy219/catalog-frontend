@@ -12,9 +12,14 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 
+let middlewares = [ReduxPromise, thunk];
+
+if (process.env.NODE_ENV !== 'production') {
+  middlewares = [...middlewares, logger];
+}
 const store = createStore(
   reducers,
-  applyMiddleware(logger, ReduxPromise, thunk),
+  applyMiddleware(...middlewares),
 );
 
 ReactDOM.render(
