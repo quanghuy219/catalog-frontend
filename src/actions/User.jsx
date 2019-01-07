@@ -1,4 +1,5 @@
 import UserApi from '../utils/api/UserApi';
+import handleError from '../utils/Helpers';
 
 const userApi = new UserApi();
 
@@ -24,15 +25,8 @@ export function login(code) {
       return user;
     })
     .catch((err) => {
-      const error = {
-        message: (err.message) ? err.message : 'Something went wrong!',
-        error: (err.error) ? err.error : {},
-      };
-      return dispatch({
-        type: 'ERROR',
-        message: error.message,
-        error: error.error,
-      });
+      handleError(err, dispatch);
+      throw err;
     });
 }
 

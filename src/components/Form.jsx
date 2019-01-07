@@ -22,7 +22,10 @@ class Form extends React.Component {
 
   componentDidMount() {
     const props = { ...this.props };
-    props.fetchCategories();
+    if (!props.user.token) {
+      return props.history.push('/');
+    }
+    return props.fetchCategories();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -72,10 +75,6 @@ class Form extends React.Component {
     const state = { ...this.state };
     props.createItem(state)
       .then((data) => {
-        this.setState({
-          name: '',
-          description: '',
-        });
         if (data) {
           props.history.push(`/item/${data.item.id}`);
         }
@@ -87,10 +86,6 @@ class Form extends React.Component {
     const state = { ...this.state };
     props.updateItem(state.id, state)
       .then((data) => {
-        this.setState({
-          name: '',
-          description: '',
-        });
         if (data) {
           props.onEditSuccess();
         }

@@ -8,6 +8,12 @@ class Notification extends React.Component {
   componentWillReceiveProps(nextProps) {
     const { message, error } = { ...nextProps.error };
     toast.error(message);
+    Object.keys(error).map((key) => {
+      if (Array.isArray(error[key])) {
+        return toast.error(error[key][0]);
+      }
+      return toast.error(error[key]);
+    });
   }
 
   render() {
@@ -20,6 +26,7 @@ class Notification extends React.Component {
 Notification.defaultProps = {
   error: {},
 };
+
 const mapStateToProps = state => (
   {
     error: state.error,

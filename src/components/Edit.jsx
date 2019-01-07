@@ -28,7 +28,8 @@ class Edit extends React.Component {
             props.history.push('/');
           }
         })
-      ));
+      ))
+      .catch(() => (props.history.push('/')));
   }
 
   onSuccess() {
@@ -46,7 +47,6 @@ class Edit extends React.Component {
       description,
       category_id,
     };
-    console.log(item);
     return <Form item={item} isEditing onEditSuccess={this.onSuccess} />;
   }
 }

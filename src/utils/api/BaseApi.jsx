@@ -9,6 +9,9 @@ class BaseApi {
           return jsonResponse;
         }
         return jsonResponse.then((err) => { throw err; });
+      })
+      .catch((err) => {
+        throw err;
       });
   }
 
@@ -35,6 +38,9 @@ class BaseApi {
         }
         // Throw new error on error response
         return jsonResponse.then((err) => { throw err; });
+      })
+      .catch((err) => {
+        throw err;
       });
   }
 
@@ -59,6 +65,9 @@ class BaseApi {
           return jsonResponse;
         }
         return jsonResponse.then((err) => { throw err; });
+      })
+      .catch((err) => {
+        throw err;
       });
   }
 
@@ -83,6 +92,9 @@ class BaseApi {
           return jsonResponse;
         }
         return jsonResponse.then((err) => { throw err; });
+      })
+      .catch((err) => {
+        throw err;
       });
   }
 }
