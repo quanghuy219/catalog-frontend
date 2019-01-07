@@ -17,6 +17,9 @@ class Edit extends React.Component {
   componentDidMount() {
     const props = { ...this.props };
     this.itemID = props.match.params.item_id;
+    if (!props.user.token) {
+      props.history.push('/');
+    }
     fetchItem(this.itemID)
       .then(data => (
         this.setState({

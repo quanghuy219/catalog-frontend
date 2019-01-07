@@ -22,10 +22,10 @@ class Form extends React.Component {
 
   componentDidMount() {
     const props = { ...this.props };
-    if (!props.user.token) {
-      return props.history.push('/');
+    if (!props.user.token && !this.isEditing) {
+      props.history.push('/');
     }
-    return props.fetchCategories();
+    props.fetchCategories();
   }
 
   componentWillReceiveProps(nextProps) {
