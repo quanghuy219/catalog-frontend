@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
-import PropTypes from 'prop-types';
 import 'react-toastify/dist/ReactToastify.min.css';
 
 class Notification extends React.Component {
@@ -22,10 +21,6 @@ class Notification extends React.Component {
     );
   }
 }
-
-Notification.defaultProps = {
-  error: {},
-};
 
 const mapStateToProps = state => (
   {
