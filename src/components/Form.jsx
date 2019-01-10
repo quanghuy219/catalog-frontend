@@ -4,6 +4,18 @@ import PropTypes from 'prop-types';
 import { fetchCategories } from '../actions/Categories';
 import { createItem, updateItem } from '../actions/Items';
 
+const propTypes = {
+  name: PropTypes.string,
+  description: PropTypes.string,
+  isEditing: PropTypes.bool,
+};
+
+const defaultProps = {
+  name: '',
+  description: '',
+  isEditing: false,
+};
+
 class Form extends React.Component {
   constructor(props) {
     super(props);
@@ -17,11 +29,13 @@ class Form extends React.Component {
     this.handleChangeCategory = this.handleChangeCategory.bind(this);
     this.submit = this.submit.bind(this);
     this.edit = this.edit.bind(this);
-    this.create = this.create.bind(this);
+    this.createNewItem = this.createNewItem.bind(this);
   }
 
   componentDidMount() {
     const props = { ...this.props };
+
+    // Redirect to homepage if user hasn't logged in
     if (!props.user.token && !this.isEditing) {
       props.history.push('/');
     }
@@ -30,11 +44,14 @@ class Form extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const props = { ...nextProps };
+
+    // Store item's data in state if current component is Edit
     if ('item' in props) {
       this.setState({
         ...props.item,
       });
-    } else { // set initial category for adding item
+    } else {
+      // Set default category_id as first category obtained from API
       this.setState({
         category_id: props.categories[0].id,
       });
@@ -61,16 +78,21 @@ class Form extends React.Component {
 
   submit() {
     const state = { ...this.state };
-    if (!state.name || !state.description) {
+
+    // Prevent submiting if name or description field is empty
+    if (state.name === '' || state.description === '') {
       return false;
     }
+
+    // Invoke callback function edit() if current page is editing
     if (this.isEditing) {
       return this.edit();
     }
-    return this.create();
+
+    return this.createNewItem();
   }
 
-  create() {
+  createNewItem() {
     const props = { ...this.props };
     const state = { ...this.state };
     props.createItem(state)
@@ -95,10 +117,13 @@ class Form extends React.Component {
   render() {
     const item = { ...this.state };
     const props = { ...this.props };
-
+    let FormTitle = '';
+    if (!this.isEditing) {
+      FormTitle = <h2>New Item</h2>;
+    }
     return (
       <div>
-        <h2>New Item</h2>
+        {FormTitle}
         <form method="post" onSubmit={e => e.preventDefault()}>
           <div className="form-group">
             <label htmlFor="name">
@@ -158,17 +183,8 @@ class Form extends React.Component {
   }
 }
 
-Form.propTypes = {
-  name: PropTypes.string,
-  description: PropTypes.string,
-  isEditing: PropTypes.bool,
-};
-
-Form.defaultProps = {
-  name: '',
-  description: '',
-  isEditing: false,
-};
+Form.propTypes = propTypes;
+Form.defaultProps = defaultProps;
 
 const mapStateToProps = state => (
   {
