@@ -16,6 +16,10 @@ class Item extends React.Component {
     this.delete = this.delete.bind(this);
   }
 
+  /**
+   * Fetching item's data
+   * Redirect to homepage if item's not found
+   */
   componentDidMount() {
     const props = { ...this.props };
     fetchItem(this.itemID)
@@ -37,6 +41,8 @@ class Item extends React.Component {
     const state = { ...this.state };
     const props = { ...this.props };
     let EditButtons = '';
+
+    // Show edit and delete buttons if current user is item's owner
     if (state.user_id === props.user.id) {
       EditButtons = (
         <div className="edit-group">
