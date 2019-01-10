@@ -17,6 +17,8 @@ class Edit extends React.Component {
   componentDidMount() {
     const props = { ...this.props };
     this.itemID = props.match.params.item_id;
+
+    // Redirect to home page if user hasnt logged in
     if (!props.user.token) {
       props.history.push('/');
     }
@@ -26,7 +28,7 @@ class Edit extends React.Component {
           ...data.item,
         }, () => {
           const { user_id } = { ...this.state };
-
+          // Redirect to homepage if current user is not item's owner
           if (user_id !== props.user.id) {
             props.history.push('/');
           }
@@ -50,7 +52,12 @@ class Edit extends React.Component {
       description,
       category_id,
     };
-    return <Form item={item} isEditing onEditSuccess={this.onSuccess} />;
+    return (
+      <div>
+        <h2>Edit Item</h2>
+        <Form item={item} isEditing onEditSuccess={this.onSuccess} />
+      </div>
+    );
   }
 }
 
