@@ -17,6 +17,8 @@ class Navbar extends React.Component {
   render() {
     const props = { ...this.props };
     let NavbarContent;
+
+    // Show user's name, and logout button on navbar when user has logged in
     if (props.user.name) {
       NavbarContent = (
         <ul className="navbar-nav">
@@ -33,6 +35,7 @@ class Navbar extends React.Component {
         </ul>
       );
     } else {
+      // Show only login button
       NavbarContent = (
         <ul className="navbar-nav">
           <li className="nav-item">
