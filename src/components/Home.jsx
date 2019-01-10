@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { fetchItems, fetchItemsByCategory } from '../actions/Items';
 import { fetchCategories } from '../actions/Categories';
 
@@ -9,6 +8,13 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.showItemByCategory = this.showItemByCategory.bind(this);
+  }
+
+  /**
+   * Call API to get all available items and categories
+   */
+  componentDidMount() {
+    const props = { ...this.props };
     props.fetchItems();
     props.fetchCategories();
   }
@@ -73,16 +79,6 @@ class Home extends React.Component {
     );
   }
 }
-
-Home.propTypes = {
-  fetchItems: PropTypes.func,
-  fetchCategories: PropTypes.func,
-};
-
-Home.defaultProps = {
-  fetchItems: null,
-  fetchCategories: null,
-};
 
 const mapStateToProps = state => (
   {
