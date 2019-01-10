@@ -7,7 +7,6 @@ import { login } from '../actions/User';
 class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
     this.onSigninSuccess = this.onSigninSuccess.bind(this);
     this.onSigninFailure = this.onSigninFailure.bind(this);
   }
@@ -42,17 +41,10 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => (
-  {
-    error: state.error,
-    user: state.user,
-  }
-);
-
 const mapDispatchToProps = dispatch => (
   {
     login: code => dispatch(login(code)),
   }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
