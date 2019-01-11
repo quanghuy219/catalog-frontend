@@ -9,6 +9,7 @@ class Item extends React.Component {
     this.state = {
       name: '',
       description: '',
+      category: '',
       user_id: 0,
       id: 0,
     };
@@ -26,6 +27,7 @@ class Item extends React.Component {
       .then(data => (
         this.setState({
           ...data.item,
+          category: data.item.category.name,
         })
       ))
       .catch(() => props.history.push('/'));
@@ -37,16 +39,14 @@ class Item extends React.Component {
       .then(() => props.history.push('/'));
   }
 
-  render() {
-    const state = { ...this.state };
+  renderEditButton() {
     const props = { ...this.props };
     let EditButtons = '';
-
     // Show edit and delete buttons if current user is item's owner
-    if (state.user_id === props.user.id) {
+    if (this.state.user_id === props.user.id) {
       EditButtons = (
         <div className="edit-group">
-          <Link className="btn-edit" to={`/item/${state.id}/edit`}>Edit</Link>
+          <Link className="btn-edit" to={`/item/${this.state.id}/edit`}>Edit</Link>
           <Link
             className="btn-edit"
             to="#/"
@@ -58,11 +58,22 @@ class Item extends React.Component {
         </div>
       );
     }
+    return EditButtons;
+  }
+
+  render() {
+    const { name, description, category } = this.state;
     return (
       <div>
-        <h3>{state.name}</h3>
-        <pre>{state.description}</pre>
-        { EditButtons }
+        <h3>{name}</h3>
+        <p>
+          Category:
+          {category}
+        </p>
+
+        <p>Description:</p>
+        <pre>{description}</pre>
+        { this.renderEditButton() }
 
         {/* Modal */}
         <div
