@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from '../actions/User';
+import { LOGIN, LOGOUT } from '../actions/user';
 
 const initialState = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : {};
 initialState.token = localStorage.getItem('token');

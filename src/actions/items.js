@@ -1,5 +1,5 @@
 import ItemApi from '../utils/api/ItemApi';
-import handleError from '../utils/Helpers';
+import handleError from '../utils/helpers';
 
 const itemApi = new ItemApi();
 
@@ -22,12 +22,12 @@ export function fetchItems() {
 
 export function fetchItemsByCategory(categoryID) {
   return dispatch => itemApi.get(`/api/categories/${categoryID}/items`)
-    .then(res => (
+    .then((res) => {
       dispatch({
         type: FETCH_ITEMS,
         items: res.data.items,
-      })
-    ))
+      });
+    })
     .catch((err) => {
       handleError(err, dispatch);
       throw err;

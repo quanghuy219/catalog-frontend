@@ -1,4 +1,4 @@
-import URL from '../Constant';
+import URL from '../constant';
 
 class BaseApi {
   get(uri) {

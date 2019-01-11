@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchItem, deleteItem } from '../actions/Items';
+import { fetchItem, deleteItem } from '../actions/items';
 
 class Item extends React.Component {
   constructor(props) {

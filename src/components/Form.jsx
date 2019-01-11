@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { fetchCategories } from '../actions/Categories';
-import { createItem, updateItem } from '../actions/Items';
+import { fetchCategories } from '../actions/categories';
+import { createItem, updateItem } from '../actions/items';
 
 const propTypes = {
   name: PropTypes.string,

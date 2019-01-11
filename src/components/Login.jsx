@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import GoogleLogin from 'react-google-login';
 import { toast } from 'react-toastify';
-import { login } from '../actions/User';
+import { login } from '../actions/user';
 
 class Login extends React.Component {
   constructor(props) {

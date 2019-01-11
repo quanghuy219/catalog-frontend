@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchItems, fetchItemsByCategory } from '../actions/Items';
-import { fetchCategories } from '../actions/Categories';
+import { fetchItems, fetchItemsByCategory } from '../actions/items';
+import { fetchCategories } from '../actions/categories';
 
 class Home extends React.Component {
   constructor(props) {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Form from './Form';
-import { fetchCategories } from '../actions/Categories';
-import { fetchItem } from '../actions/Items';
+import { fetchCategories } from '../actions/categories';
+import { fetchItem } from '../actions/items';
 
 class Edit extends React.Component {
   constructor(props) {

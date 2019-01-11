@@ -1,5 +1,5 @@
 import CategoryApi from '../utils/api/CategoryApi';
-import handleError from '../utils/Helpers';
+import handleError from '../utils/helpers';
 
 const categoryApi = new CategoryApi();
 

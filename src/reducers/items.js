@@ -1,4 +1,4 @@
-import { FETCH_ITEMS, CREATE_ITEM } from '../actions/Items';
+import { FETCH_ITEMS, CREATE_ITEM } from '../actions/items';
 
 const initialState = {
   items: [],

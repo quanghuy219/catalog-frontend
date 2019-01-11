@@ -1,5 +1,5 @@
 import UserApi from '../utils/api/UserApi';
-import handleError from '../utils/Helpers';
+import handleError from '../utils/helpers';
 
 const userApi = new UserApi();
 
