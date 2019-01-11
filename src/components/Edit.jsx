@@ -22,12 +22,13 @@ class Edit extends React.Component {
     if (!props.user.token) {
       props.history.push('/');
     }
+
     fetchItem(this.itemID)
       .then(data => (
         this.setState({
           ...data.item,
         }, () => {
-          const { user_id } = { ...this.state };
+          const { user_id } = this.state;
           // Redirect to homepage if current user is not item's owner
           if (user_id !== props.user.id) {
             props.history.push('/');
@@ -43,15 +44,7 @@ class Edit extends React.Component {
   }
 
   render() {
-    const {
-      id, name, description, category_id,
-    } = { ...this.state };
-    const item = {
-      id,
-      name,
-      description,
-      category_id,
-    };
+    const item = { ...this.state };
     return (
       <div>
         <h2>Edit Item</h2>
