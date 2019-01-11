@@ -24,12 +24,6 @@ class Form extends React.Component {
       description: props.description,
     };
     this.isEditing = props.isEditing;
-    this.handleChangeName = this.handleChangeName.bind(this);
-    this.handleChangeDescription = this.handleChangeDescription.bind(this);
-    this.handleChangeCategory = this.handleChangeCategory.bind(this);
-    this.submit = this.submit.bind(this);
-    this.edit = this.edit.bind(this);
-    this.createNewItem = this.createNewItem.bind(this);
   }
 
   componentDidMount() {
@@ -58,25 +52,25 @@ class Form extends React.Component {
     }
   }
 
-  handleChangeName(e) {
+  handleChangeName = (e) => {
     this.setState({
       name: e.target.value,
     });
   }
 
-  handleChangeDescription(e) {
+  handleChangeDescription = (e) => {
     this.setState({
       description: e.target.value,
     });
   }
 
-  handleChangeCategory(e) {
+  handleChangeCategory = (e) => {
     this.setState({
       category_id: parseInt(e.target.value, 10),
     });
   }
 
-  submit() {
+  submit = () => {
     const state = { ...this.state };
 
     // Prevent submiting if name or description field is empty
@@ -92,7 +86,7 @@ class Form extends React.Component {
     return this.createNewItem();
   }
 
-  createNewItem() {
+  createNewItem = () => {
     const props = { ...this.props };
     const state = { ...this.state };
     props.createItem(state)
@@ -103,7 +97,7 @@ class Form extends React.Component {
       });
   }
 
-  edit() {
+  edit = () => {
     const props = { ...this.props };
     const state = { ...this.state };
     props.updateItem(state.id, state)

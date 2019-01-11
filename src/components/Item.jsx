@@ -14,7 +14,6 @@ class Item extends React.Component {
       id: 0,
     };
     this.itemID = props.match.params.item_id;
-    this.delete = this.delete.bind(this);
   }
 
   /**
@@ -33,13 +32,13 @@ class Item extends React.Component {
       .catch(() => props.history.push('/'));
   }
 
-  delete() {
+  delete = () => {
     const props = { ...this.props };
     props.deleteItem(this.itemID)
       .then(() => props.history.push('/'));
   }
 
-  renderEditButton() {
+  renderEditButton = () => {
     const props = { ...this.props };
     let EditButtons = '';
     // Show edit and delete buttons if current user is item's owner

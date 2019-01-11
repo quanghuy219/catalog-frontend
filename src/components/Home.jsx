@@ -5,11 +5,7 @@ import { fetchItems, fetchItemsByCategory } from '../actions/items';
 import { fetchCategories } from '../actions/categories';
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.showItemByCategory = this.showItemByCategory.bind(this);
-  }
-
+  
   /**
    * Call API to get all available items and categories
    */
@@ -19,7 +15,7 @@ class Home extends React.Component {
     props.fetchCategories();
   }
 
-  showItemByCategory(categoryID) {
+  showItemByCategory = (categoryID) => {
     const props = { ...this.props };
     props.fetchItemsByCategory(categoryID);
   }

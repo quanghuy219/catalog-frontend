@@ -11,7 +11,6 @@ class Edit extends React.Component {
       name: '',
       description: '',
     };
-    this.onSuccess = this.onSuccess.bind(this);
   }
 
   componentDidMount() {
@@ -38,7 +37,7 @@ class Edit extends React.Component {
       .catch(() => (props.history.push('/')));
   }
 
-  onSuccess() {
+  onSuccess = () => {
     const props = { ...this.props };
     props.history.push(`/item/${this.itemID}`);
   }

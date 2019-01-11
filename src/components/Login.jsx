@@ -5,19 +5,13 @@ import { toast } from 'react-toastify';
 import { login } from '../actions/user';
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onSigninSuccess = this.onSigninSuccess.bind(this);
-    this.onSigninFailure = this.onSigninFailure.bind(this);
-  }
-
-  onSigninSuccess(code) {
+  onSigninSuccess = (code) => {
     const props = { ...this.props };
     props.login(code)
       .then(() => props.history.push('/'));
   }
 
-  onSigninFailure() {
+  onSigninFailure = () => {
     toast.error('Something went wrong. Please try again later');
   }
 
