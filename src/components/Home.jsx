@@ -52,13 +52,9 @@ class Home extends React.Component {
           </ul>
         </div>
         <div className="col-md-8 col-sm-8 col-7">
-          {(() => {
-            if (props.user.name) {
-              return <Link to="/new-item">Add Item</Link>;
-            }
-            return '';
+          {
+            (props.user.name) && <Link to="/new-item">Add Item</Link>
           }
-          )()}
           <h4 className="col-header">Latest Items</h4>
           <ul>
             {

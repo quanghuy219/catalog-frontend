@@ -117,13 +117,9 @@ class Form extends React.Component {
   render() {
     const item = { ...this.state };
     const props = { ...this.props };
-    let FormTitle = '';
-    if (!this.isEditing) {
-      FormTitle = <h2>New Item</h2>;
-    }
     return (
       <div>
-        {FormTitle}
+        { (!this.isEditing && <h2>New Item</h2>) }
         <form method="post" onSubmit={e => e.preventDefault()}>
           <div className="form-group">
             <label htmlFor="name">
