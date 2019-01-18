@@ -1,19 +1,42 @@
+import { ActionTypes } from './constant';
+
 /**
  * Show spinner on screen when start an asynchronous action
  */
-export function startFetching(dispatch) {
-  dispatch({
-    type: 'SHOW_LOADER',
-  });
+export function onStartingRequest() {
+  return {
+    type: ActionTypes.SHOW_LOADER,
+  };
 }
 
 /**
  * Hide spinner when request finishes
-*/
-export function endFetching(dispatch) {
-  dispatch({
-    type: 'HIDE_LOADER',
-  });
+ */
+export function onReceivingResponse() {
+  return {
+    type: ActionTypes.HIDE_LOADER,
+  };
+}
+
+/**
+ * Show error messages when calling API failed
+ */
+export function showErrorMessage(message, error) {
+  return {
+    type: ActionTypes.SHOW_ERROR_MESSAGE,
+    message,
+    error,
+  };
+}
+
+/**
+ * Show successfull message when calling API returns success
+ */
+export function showSuccessMessage(message) {
+  return {
+    type: ActionTypes.SHOW_SUCCESS_MESSAGE,
+    message,
+  };
 }
 
 /**
@@ -25,9 +48,9 @@ export function handleError(err, dispatch) {
     message: (err.message) ? err.message : 'Something went wrong!',
     error: (err.error) ? err.error : {},
   };
-  endFetching(dispatch);
+  dispatch(onReceivingResponse());
   dispatch({
-    type: 'ERROR',
+    type: ActionTypes.SHOW_ERROR_MESSAGE,
     message: error.message,
     error: error.error,
   });

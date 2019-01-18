@@ -1,21 +1,35 @@
 import ItemApi from '../utils/api/ItemApi';
-import { handleError, startFetching, endFetching } from '../utils/helpers';
+import { ActionTypes } from '../utils/constant';
+import {
+  handleError,
+  onStartingRequest,
+  onReceivingResponse,
+  showSuccessMessage,
+} from '../utils/helpers';
 
 const itemApi = new ItemApi();
 
-export const FETCH_ITEMS = 'FETCH_ITEMS';
-export const CREATE_ITEM = 'CREATE_ITEM';
+function onSuccessFetchingItems({ items }) {
+  return {
+    type: ActionTypes.FETCH_ITEMS,
+    items,
+  };
+}
+
+function onSuccessCreatingItem({ item }) {
+  return {
+    type: ActionTypes.CREATE_ITEM,
+    item,
+  };
+}
 
 export function fetchItems() {
   return (dispatch) => {
-    startFetching(dispatch);
+    dispatch(onStartingRequest());
     return itemApi.get('/api/items')
       .then((res) => {
-        endFetching(dispatch);
-        dispatch({
-          type: FETCH_ITEMS,
-          items: res.data.items,
-        });
+        dispatch(onReceivingResponse());
+        dispatch(onSuccessFetchingItems(res.data));
       })
       .catch((err) => {
         handleError(err, dispatch);
@@ -26,14 +40,11 @@ export function fetchItems() {
 
 export function fetchItemsByCategory(categoryID) {
   return (dispatch) => {
-    startFetching(dispatch);
+    dispatch(onStartingRequest());
     return itemApi.get(`/api/categories/${categoryID}/items`)
       .then((res) => {
-        endFetching(dispatch);
-        dispatch({
-          type: FETCH_ITEMS,
-          items: res.data.items,
-        });
+        dispatch(onReceivingResponse());
+        dispatch(onSuccessFetchingItems(res.data));
       })
       .catch((err) => {
         handleError(err, dispatch);
@@ -44,10 +55,10 @@ export function fetchItemsByCategory(categoryID) {
 
 export function fetchItem(itemId) {
   return (dispatch) => {
-    startFetching(dispatch);
+    dispatch(onStartingRequest());
     return itemApi.get(`/api/items/${itemId}`)
       .then((res) => {
-        endFetching(dispatch);
+        dispatch(onReceivingResponse());
         return res.data;
       })
       .catch((err) => {
@@ -59,14 +70,12 @@ export function fetchItem(itemId) {
 
 export function createItem(data) {
   return (dispatch) => {
-    startFetching(dispatch);
+    dispatch(onStartingRequest());
     return itemApi.post(data)
       .then((res) => {
-        endFetching(dispatch);
-        dispatch({
-          type: CREATE_ITEM,
-          item: res.data.item,
-        });
+        dispatch(onReceivingResponse());
+        dispatch(onSuccessCreatingItem(res.data));
+        dispatch(showSuccessMessage(res.message));
         return res.data;
       })
       .catch((err) => {
@@ -78,10 +87,11 @@ export function createItem(data) {
 
 export function updateItem(itemID, data) {
   return (dispatch) => {
-    startFetching(dispatch);
+    dispatch(onStartingRequest());
     return itemApi.put(itemID, data)
       .then((res) => {
-        endFetching(dispatch);
+        dispatch(onReceivingResponse());
+        dispatch(showSuccessMessage(res.message));
         return res.data;
       })
       .catch((err) => {
@@ -93,10 +103,11 @@ export function updateItem(itemID, data) {
 
 export function deleteItem(itemID) {
   return (dispatch) => {
-    startFetching(dispatch);
+    dispatch(onStartingRequest());
     return itemApi.delete(itemID)
       .then((res) => {
-        endFetching(dispatch);
+        dispatch(onReceivingResponse());
+        dispatch(showSuccessMessage(res.message));
         return res.data;
       })
       .catch((err) => {

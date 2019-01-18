@@ -1,17 +1,29 @@
 import UserApi from '../utils/api/UserApi';
-import { handleError, startFetching, endFetching } from '../utils/helpers';
+import { ActionTypes } from '../utils/constant';
+import {
+  handleError,
+  onStartingRequest,
+  onReceivingResponse,
+  showSuccessMessage,
+} from '../utils/helpers';
 
 const userApi = new UserApi();
 
-export const LOGIN = 'LOGIN';
-export const LOGOUT = 'LOGOUT';
+function onLoginSuccess(name, id, token) {
+  return {
+    type: ActionTypes.LOGIN,
+    name,
+    id,
+    token,
+  };
+}
 
 export function login(code) {
   return (dispatch) => {
-    startFetching(dispatch);
+    dispatch(onStartingRequest());
     return userApi.login('/api/login', code)
       .then((json) => {
-        endFetching(dispatch);
+        dispatch(onReceivingResponse());
         const user = {
           name: json.data.user.name,
           id: json.data.user.id,
@@ -19,12 +31,8 @@ export function login(code) {
         const { token } = json.data;
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('token', token);
-        dispatch({
-          type: LOGIN,
-          name: user.name,
-          id: user.id,
-          token,
-        });
+        dispatch(onLoginSuccess(user.name, user.id, token));
+        dispatch(showSuccessMessage(json.message));
         return user;
       })
       .catch((err) => {
@@ -46,7 +54,7 @@ export function logout() {
       localStorage.removeItem('token');
     }
     dispatch({
-      type: LOGOUT,
+      type: ActionTypes.LOGOUT,
     });
   };
 }
