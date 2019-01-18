@@ -2,14 +2,14 @@ import { combineReducers } from 'redux';
 import itemsReducer from './items';
 import userReducer from './user';
 import categoriesReducer from './categories';
-import errorReducer from './error';
+import notificationReducer from './notification';
 import loaderReducer from './loader';
 
 const rootReducers = combineReducers({
   items: itemsReducer,
   user: userReducer,
   categories: categoriesReducer,
-  error: errorReducer,
+  notification: notificationReducer,
   loader: loaderReducer,
 });
 

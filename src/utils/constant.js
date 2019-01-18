@@ -1,3 +1,19 @@
 const URL = 'https://catalog-backend.herokuapp.com';
 
 export default URL;
+
+export const ActionTypes = {
+  FETCH_ITEMS: 'FETCH_ITEMS',
+  CREATE_ITEM: 'CREATE_ITEM',
+
+  FETCH_CATEGORIES: 'FETCH_CATEGORIES',
+
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
+
+  SHOW_ERROR_MESSAGE: 'SHOW_ERROR_MESSAGE',
+  SHOW_SUCCESS_MESSAGE: 'SHOW_SUCCESS_MESSAGE',
+
+  SHOW_LOADER: 'SHOW_LOADER',
+  HIDE_LOADER: 'HIDE_LOADER',
+};
