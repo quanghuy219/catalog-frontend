@@ -10,18 +10,16 @@ class Navbar extends React.Component {
   }
 
   onClickLogout = () => {
-    const props = { ...this.props };
-    props.logout();
+    this.props.logout();
   }
 
   renderNavbar = () => {
-    const props = { ...this.props };
     let NavbarContent;
     // Show user's name, and logout button on navbar when user has logged in
-    if (props.user.name) {
+    if (this.props.user.name) {
       NavbarContent = (
         <ul className="navbar-nav">
-          <li className="nav-item nav-username">{props.user.name}</li>
+          <li className="nav-item nav-username">{this.props.user.name}</li>
           <li className="nav-item">
             <button
               type="submit"

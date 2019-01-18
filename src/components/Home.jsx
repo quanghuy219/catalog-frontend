@@ -10,26 +10,23 @@ class Home extends React.Component {
    * Call API to get all available items and categories
    */
   componentDidMount() {
-    const props = { ...this.props };
-    props.fetchItems();
-    props.fetchCategories();
+    this.props.fetchItems();
+    this.props.fetchCategories();
   }
 
   showItemByCategory = (categoryID) => {
-    const props = { ...this.props };
-    props.fetchItemsByCategory(categoryID);
+    this.props.fetchItemsByCategory(categoryID);
   }
 
   render() {
-    const props = { ...this.props };
     return (
       <div className="row">
         <div className="col-md-4 col-sm-4 col-5" style={{ borderRight: '1px solid #bbbec1' }}>
           <h4 className="col-header">Categories</h4>
           <ul>
-            <li><NavLink to="/" onClick={() => props.fetchItems()}>All</NavLink></li>
+            <li><NavLink to="/" onClick={() => this.props.fetchItems()}>All</NavLink></li>
             {
-              props.categories.map(category => (
+              this.props.categories.map(category => (
                 <li key={category.id}>
                   <NavLink
                     to={`#${category.name.replace(' ', '-')}`}
@@ -49,12 +46,12 @@ class Home extends React.Component {
         </div>
         <div className="col-md-8 col-sm-8 col-7">
           {
-            (props.user.name) && <Link to="/new-item">Add Item</Link>
+            (this.props.user.name) && <Link to="/new-item">Add Item</Link>
           }
           <h4 className="col-header">Latest Items</h4>
           <ul>
             {
-              props.items.items.map(item => (
+              this.props.items.items.map(item => (
                 <li key={item.id}>
                   <Link to={`/item/${item.id}`}>{item.name}</Link>
                   <span>

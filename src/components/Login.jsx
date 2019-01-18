@@ -6,9 +6,8 @@ import { login } from '../actions/user';
 
 class Login extends React.Component {
   onSigninSuccess = (code) => {
-    const props = { ...this.props };
-    props.login(code)
-      .then(() => props.history.push('/'));
+    this.props.login(code)
+      .then(() => this.props.history.push('/'));
   }
 
   onSigninFailure = () => {

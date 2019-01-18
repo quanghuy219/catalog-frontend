@@ -21,28 +21,25 @@ class Item extends React.Component {
    * Redirect to homepage if item's not found
    */
   componentDidMount() {
-    const props = { ...this.props };
-    props.fetchItem(this.itemID)
+    this.props.fetchItem(this.itemID)
       .then(data => (
         this.setState({
           ...data.item,
           category: data.item.category.name,
         })
       ))
-      .catch(() => props.history.push('/'));
+      .catch(() => this.props.history.push('/'));
   }
 
   delete = () => {
-    const props = { ...this.props };
-    props.deleteItem(this.itemID)
-      .then(() => props.history.push('/'));
+    this.props.deleteItem(this.itemID)
+      .then(() => this.props.history.push('/'));
   }
 
   renderEditButton = () => {
-    const props = { ...this.props };
     let EditButtons = '';
     // Show edit and delete buttons if current user is item's owner
-    if (this.state.user_id === props.user.id) {
+    if (this.state.user_id === this.props.user.id) {
       EditButtons = (
         <div className="edit-group">
           <Link className="btn-edit" to={`/item/${this.state.id}/edit`}>Edit</Link>

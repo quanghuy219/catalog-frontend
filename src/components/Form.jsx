@@ -27,27 +27,23 @@ class Form extends React.Component {
   }
 
   componentDidMount() {
-    const props = { ...this.props };
-
     // Redirect to homepage if user hasn't logged in
-    if (!props.user.token && !this.isEditing) {
-      props.history.push('/');
+    if (!this.props.user.token && !this.isEditing) {
+      this.props.history.push('/');
     }
-    props.fetchCategories();
+    this.props.fetchCategories();
   }
 
   componentWillReceiveProps(nextProps) {
-    const props = { ...nextProps };
-
     // Store item's data in state if current component is Edit
-    if ('item' in props) {
+    if ('item' in nextProps) {
       this.setState({
-        ...props.item,
+        ...nextProps.item,
       });
     } else {
       // Set default category_id as first category obtained from API
       this.setState({
-        category_id: props.categories[0].id,
+        category_id: nextProps.categories[0].id,
       });
     }
   }
@@ -71,10 +67,8 @@ class Form extends React.Component {
   }
 
   submit = () => {
-    const state = { ...this.state };
-
     // Prevent submiting if name or description field is empty
-    if (state.name === '' || state.description === '') {
+    if (this.state.name === '' || this.state.description === '') {
       return false;
     }
 
@@ -87,30 +81,25 @@ class Form extends React.Component {
   }
 
   createNewItem = () => {
-    const props = { ...this.props };
-    const state = { ...this.state };
-    props.createItem(state)
+    this.props.createItem(this.state)
       .then((data) => {
         if (data) {
-          props.history.push(`/item/${data.item.id}`);
+          this.props.history.push(`/item/${data.item.id}`);
         }
       });
   }
 
   edit = () => {
-    const props = { ...this.props };
-    const state = { ...this.state };
-    props.updateItem(state.id, state)
+    this.props.updateItem(this.state.id, this.state)
       .then((data) => {
         if (data) {
-          props.onEditSuccess();
+          this.props.onEditSuccess();
         }
       });
   }
 
   render() {
     const item = { ...this.state };
-    const props = { ...this.props };
     return (
       <div>
         { (!this.isEditing && <h2>New Item</h2>) }
@@ -142,7 +131,7 @@ class Form extends React.Component {
                 onChange={this.handleChangeCategory}
               >
                 {
-                  props.categories.map(category => (
+                  this.props.categories.map(category => (
                     <option key={category.id} value={category.id}>{category.name}</option>
                   ))
                 }

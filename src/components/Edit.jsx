@@ -14,32 +14,30 @@ class Edit extends React.Component {
   }
 
   componentDidMount() {
-    const props = { ...this.props };
-    this.itemID = props.match.params.item_id;
+    this.itemID = this.props.match.params.item_id;
 
     // Redirect to home page if user hasnt logged in
-    if (!props.user.token) {
-      props.history.push('/');
+    if (!this.props.user.token) {
+      this.props.history.push('/');
     }
 
-    props.fetchItem(this.itemID)
+    this.props.fetchItem(this.itemID)
       .then(data => (
         this.setState({
           ...data.item,
         }, () => {
           const { user_id } = this.state;
           // Redirect to homepage if current user is not item's owner
-          if (user_id !== props.user.id) {
-            props.history.push('/');
+          if (user_id !== this.props.user.id) {
+            this.props.history.push('/');
           }
         })
       ))
-      .catch(() => (props.history.push('/')));
+      .catch(() => (this.props.history.push('/')));
   }
 
   onSuccess = () => {
-    const props = { ...this.props };
-    props.history.push(`/item/${this.itemID}`);
+    this.props.history.push(`/item/${this.itemID}`);
   }
 
   render() {
