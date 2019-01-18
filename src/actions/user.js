@@ -1,5 +1,5 @@
 import UserApi from '../utils/api/UserApi';
-import handleError from '../utils/helpers';
+import { handleError, startFetching, endFetching } from '../utils/helpers';
 
 const userApi = new UserApi();
 
@@ -7,27 +7,31 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 
 export function login(code) {
-  return dispatch => userApi.login('/api/login', code)
-    .then((json) => {
-      const user = {
-        name: json.data.user.name,
-        id: json.data.user.id,
-      };
-      const { token } = json.data;
-      localStorage.setItem('user', JSON.stringify(user));
-      localStorage.setItem('token', token);
-      dispatch({
-        type: LOGIN,
-        name: user.name,
-        id: user.id,
-        token,
+  return (dispatch) => {
+    startFetching(dispatch);
+    return userApi.login('/api/login', code)
+      .then((json) => {
+        endFetching(dispatch);
+        const user = {
+          name: json.data.user.name,
+          id: json.data.user.id,
+        };
+        const { token } = json.data;
+        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('token', token);
+        dispatch({
+          type: LOGIN,
+          name: user.name,
+          id: user.id,
+          token,
+        });
+        return user;
+      })
+      .catch((err) => {
+        handleError(err, dispatch);
+        throw err;
       });
-      return user;
-    })
-    .catch((err) => {
-      handleError(err, dispatch);
-      throw err;
-    });
+  };
 }
 
 export function logout() {

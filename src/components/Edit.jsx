@@ -22,7 +22,7 @@ class Edit extends React.Component {
       props.history.push('/');
     }
 
-    fetchItem(this.itemID)
+    props.fetchItem(this.itemID)
       .then(data => (
         this.setState({
           ...data.item,
@@ -63,6 +63,7 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
   {
     fetchCategories: () => dispatch(fetchCategories()),
+    fetchItem: itemID => dispatch(fetchItem(itemID)),
   }
 );
 

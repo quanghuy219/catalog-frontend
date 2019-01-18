@@ -22,7 +22,7 @@ class Item extends React.Component {
    */
   componentDidMount() {
     const props = { ...this.props };
-    fetchItem(this.itemID)
+    props.fetchItem(this.itemID)
       .then(data => (
         this.setState({
           ...data.item,
@@ -117,6 +117,7 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
+    fetchItem: itemID => dispatch(fetchItem(itemID)),
     deleteItem: itemID => dispatch(deleteItem(itemID)),
   }
 );

@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Item from './components/Item';
 import Notification from './components/Notification';
 import Edit from './components/Edit';
+import Loader from './components/Loader';
 import 'react-toastify/dist/ReactToastify.min.css';
 import './App.css';
 
@@ -26,6 +27,7 @@ function App() {
           </Switch>
         </div>
         <Notification />
+        <Loader />
       </div>
     </Router>
   );
