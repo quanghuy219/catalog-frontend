@@ -69,6 +69,9 @@ pre {
   min-width: 300px;
 }
 
+.active, .active:hover {
+  color: red;
+}
 
 @media screen and (max-width: 576px) {
   .col-header {

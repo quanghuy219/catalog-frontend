@@ -10,12 +10,47 @@ class Home extends React.Component {
    * Call API to get all available items and categories
    */
   componentDidMount() {
-    this.props.fetchItems();
     this.props.fetchCategories();
+    const categoryID = this.props.match.params.category_id;
+    if (categoryID) {
+      this.showItemByCategory(categoryID);
+    } else {
+      this.props.fetchItems();
+    }
+  }
+
+  shouldComponentUpdate() {
+    const categories = this.props.categories;
+    // Call componentDidUpdate when all categories are ready
+    if (categories.length === 0) {
+      return false;
+    }
+    return true;   
+  }
+
+  /**
+   * When showing items by category, check category's name in url
+   * If category's name is invalid, correct category's name
+   */
+  componentDidUpdate() {
+    const categories = this.props.categories;
+    const urlCategoryID = this.props.match.params.category_id;
+    if (urlCategoryID) {
+      const urlCategoryName = this.props.match.params.category_name;
+      const currentCategories = categories.filter(category => category.id === parseInt(urlCategoryID))
+      const currentCategory = currentCategories[0];
+      if ( !urlCategoryName || urlCategoryName !== currentCategory.name.replace(' ', '-')) {
+        this.props.history.push(`/category/${currentCategory.id}/${currentCategory.name.replace(' ', '-')}`)
+      }
+    }
   }
 
   showItemByCategory = (categoryID) => {
-    this.props.fetchItemsByCategory(categoryID);
+    this.props.fetchItemsByCategory(categoryID)
+      .catch(err => {
+        this.props.history.push('/');
+        this.props.fetchItems();
+      })
   }
 
   render() {
@@ -24,18 +59,13 @@ class Home extends React.Component {
         <div className="col-md-4 col-sm-4 col-5" style={{ borderRight: '1px solid #bbbec1' }}>
           <h4 className="col-header">Categories</h4>
           <ul>
-            <li><NavLink to="/" onClick={() => this.props.fetchItems()}>All</NavLink></li>
+            <li><NavLink exact to="/" onClick={() => this.props.fetchItems()}>All</NavLink></li>
             {
               this.props.categories.map(category => (
                 <li key={category.id}>
                   <NavLink
-                    to={`#${category.name.replace(' ', '-')}`}
-                    activeStyle={{
-                      color: 'red',
-                    }}
-                    onClick={() => {
-                      this.showItemByCategory(category.id);
-                    }}
+                    to={`/category/${category.id}/${category.name.replace(' ', '-')}`}
+                    onClick={() => this.showItemByCategory(category.id)}
                   >
                     {category.name}
                   </NavLink>
