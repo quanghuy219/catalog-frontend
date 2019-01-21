@@ -1,7 +1,3 @@
-const URL = 'https://catalog-backend.herokuapp.com';
-
-export default URL;
-
 export const ActionTypes = {
   FETCH_ITEMS: 'FETCH_ITEMS',
   CREATE_ITEM: 'CREATE_ITEM',
@@ -17,3 +13,5 @@ export const ActionTypes = {
   SHOW_LOADER: 'SHOW_LOADER',
   HIDE_LOADER: 'HIDE_LOADER',
 };
+
+export default ActionTypes;

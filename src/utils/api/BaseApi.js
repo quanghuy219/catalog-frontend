@@ -1,8 +1,8 @@
-import URL from '../constant';
+import CONFIG from '../config';
 
 class BaseApi {
   get(uri) {
-    return fetch(`${URL}${uri}`)
+    return fetch(`${CONFIG.API_URL}${uri}`)
       .then((response) => {
         const jsonResponse = response.json();
         if (response.ok) {
@@ -29,7 +29,7 @@ class BaseApi {
       options.headers.Authorization = `Bearer ${token}`;
     }
 
-    return fetch(`${URL}${uri}`, options)
+    return fetch(`${CONFIG.API_URL}${uri}`, options)
       .then((response) => {
         const jsonResponse = response.json();
         // Return resolve promise on success response
@@ -58,7 +58,7 @@ class BaseApi {
       options.headers.Authorization = `Bearer ${token}`;
     }
 
-    return fetch(`${URL}${uri}`, options)
+    return fetch(`${CONFIG.API_URL}${uri}`, options)
       .then((response) => {
         const jsonResponse = response.json();
         if (response.ok) {
@@ -85,7 +85,7 @@ class BaseApi {
       options.headers.Authorization = `Bearer ${token}`;
     }
 
-    return fetch(`${URL}${uri}`, options)
+    return fetch(`${CONFIG.API_URL}${uri}`, options)
       .then((response) => {
         const jsonResponse = response.json();
         if (response.ok) {
