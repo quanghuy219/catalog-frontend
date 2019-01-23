@@ -5,6 +5,12 @@ import { fetchItems, fetchItemsByCategory } from '../actions/items';
 import { fetchCategories } from '../actions/categories';
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+    }
+  }
   
   /**
    * Call API to get all available items and categories
@@ -13,10 +19,18 @@ class Home extends React.Component {
     this.props.fetchCategories();
     const categoryID = this.props.match.params.category_id;
     if (categoryID) {
-      this.showItemByCategory(categoryID);
+      this.showItemsByCategory(categoryID);
     } else {
       this.props.fetchItems();
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Convert object in nextProps.items to array of items stored in component's state
+    const items = nextProps.items.allIds.map(id => nextProps.items.byId[id]);
+    this.setState({
+      items,
+    })
   }
 
   shouldComponentUpdate() {
@@ -25,7 +39,7 @@ class Home extends React.Component {
     if (categories.length === 0) {
       return false;
     }
-    return true;   
+    return true;
   }
 
   /**
@@ -39,13 +53,13 @@ class Home extends React.Component {
       const urlCategoryName = this.props.match.params.category_name;
       const currentCategories = categories.filter(category => category.id === parseInt(urlCategoryID))
       const currentCategory = currentCategories[0];
-      if ( !urlCategoryName || urlCategoryName !== currentCategory.name.replace(' ', '-')) {
+      if (!urlCategoryName || urlCategoryName !== currentCategory.name.replace(' ', '-')) {
         this.props.history.push(`/category/${currentCategory.id}/${currentCategory.name.replace(' ', '-')}`)
       }
     }
   }
 
-  showItemByCategory = (categoryID) => {
+  showItemsByCategory = (categoryID) => {
     this.props.fetchItemsByCategory(categoryID)
       .catch(err => {
         this.props.history.push('/');
@@ -59,13 +73,13 @@ class Home extends React.Component {
         <div className="col-md-4 col-sm-4 col-5" style={{ borderRight: '1px solid #bbbec1' }}>
           <h4 className="col-header">Categories</h4>
           <ul>
-            <li><NavLink exact to="/" onClick={() => this.props.fetchItems()}>All</NavLink></li>
+            <li><NavLink exact to="/" onClick={this.props.fetchItems}>All</NavLink></li>
             {
               this.props.categories.map(category => (
                 <li key={category.id}>
                   <NavLink
                     to={`/category/${category.id}/${category.name.replace(' ', '-')}`}
-                    onClick={() => this.showItemByCategory(category.id)}
+                    onClick={() => this.showItemsByCategory(category.id)}
                   >
                     {category.name}
                   </NavLink>
@@ -81,7 +95,7 @@ class Home extends React.Component {
           <h4 className="col-header">Latest Items</h4>
           <ul>
             {
-              this.props.items.items.map(item => (
+              this.state.items.map(item => (
                 <li key={item.id}>
                   <Link to={`/item/${item.id}`}>{item.name}</Link>
                   <span>
