@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logout } from '../actions/user';
+import { fetchItems } from '../actions/items';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class Navbar extends React.Component {
   render() {
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
-        <Link className="navbar-brand" to="/">Catalog</Link>
+        <Link className="navbar-brand" to="/" onClick={this.props.fetchItems}>Catalog</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -78,6 +79,7 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
   {
     logout: () => dispatch(logout()),
+    fetchItems: () => dispatch(fetchItems())
   }
 );
 
