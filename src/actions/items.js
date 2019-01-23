@@ -23,6 +23,13 @@ function onSuccessCreatingItem({ item }) {
   };
 }
 
+function onSuccessUpdatingItem({ item }) {
+  return {
+    type: ActionTypes.UPDATE_ITEM,
+    item,
+  };
+}
+
 export function fetchItems() {
   return (dispatch) => {
     dispatch(onStartingRequest());
@@ -91,6 +98,7 @@ export function updateItem(itemID, data) {
     return itemApi.put(itemID, data)
       .then((res) => {
         dispatch(onReceivingResponse());
+        dispatch(onSuccessUpdatingItem(res.data));
         dispatch(showSuccessMessage(res.message));
         return res.data;
       })
