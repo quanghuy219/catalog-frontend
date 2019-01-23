@@ -1,21 +1,36 @@
 import { ActionTypes } from '../utils/constant';
 
 const initialState = {
-  items: [],
-  page: 0,
-  offset: 10,
+  byId: {},
+  allIds: [],
 };
 
 const itemsReducer = function setItemActions(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.FETCH_ITEMS: {
-      return {
-        items: [...action.items],
-      };
+      const items = action.items.reduce((acc, item) => {
+        acc.byId[item.id] = item;
+        acc.allIds.push(item.id);
+        return acc;
+      }, {
+        byId: {},
+        allIds: [],
+      });
+      return items;
     }
     case ActionTypes.CREATE_ITEM: {
+      const newState = { ...state };
+      newState.byId[action.item.id] = action.item;
+      newState.allIds.push(action.item.id);
       return {
-        items: [action.item, ...state.items],
+        ...newState,
+      };
+    }
+    case ActionTypes.UPDATE_ITEM: {
+      const newState = { ...state };
+      newState.byId[action.item.id] = action.item;
+      return {
+        ...newState,
       };
     }
     default:

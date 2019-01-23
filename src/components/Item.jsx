@@ -21,7 +21,17 @@ class Item extends React.Component {
    * Redirect to homepage if item's not found
    */
   componentDidMount() {
-    this.props.fetchItem(this.itemID)
+    const itemId = this.props.match.params.item_id
+    const item = this.props.items.byId[itemId];
+    // Find item in current state first
+    // If not found, call API to fetch item
+    if (item) {
+      this.setState({
+        ...item,
+        category: item.category.name
+      })
+    } else {
+      this.props.fetchItem(this.itemID)
       .then(data => (
         this.setState({
           ...data.item,
@@ -29,6 +39,7 @@ class Item extends React.Component {
         })
       ))
       .catch(() => this.props.history.push('/'));
+    }
   }
 
   delete = () => {
@@ -108,6 +119,7 @@ class Item extends React.Component {
 
 const mapStateToProps = state => (
   {
+    items: state.items,
     user: state.user,
   }
 );
