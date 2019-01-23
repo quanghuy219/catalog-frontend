@@ -42,8 +42,9 @@ class Form extends React.Component {
       });
     } else {
       // Set default category_id as first category obtained from API
+      const defaultCategoryId = nextProps.categories.allIds[0];
       this.setState({
-        category_id: nextProps.categories[0].id,
+        category_id: nextProps.categories.byId[defaultCategoryId],
       });
     }
   }
@@ -100,6 +101,7 @@ class Form extends React.Component {
 
   render() {
     const item = { ...this.state };
+    const categories = this.props.categories.allIds.map(id => this.props.categories.byId[id]);
     return (
       <div>
         { (!this.isEditing && <h2>New Item</h2>) }
@@ -131,7 +133,7 @@ class Form extends React.Component {
                 onChange={this.handleChangeCategory}
               >
                 {
-                  this.props.categories.map(category => (
+                  categories.map(category => (
                     <option key={category.id} value={category.id}>{category.name}</option>
                   ))
                 }

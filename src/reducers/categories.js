@@ -1,11 +1,23 @@
 import { ActionTypes } from '../utils/constant';
 
-const categoriesReducer = function setCategoryActions(state = [], action) {
+const initialState = {
+  byId: {},
+  allIds: [],
+};
+
+const categoriesReducer = function setCategoryActions(state = initialState, action) {
   switch (action.type) {
     case ActionTypes.FETCH_CATEGORIES: {
-      return [...action.categories];
+      const categories = action.categories.reduce((acc, category) => {
+        acc.byId[category.id] = category;
+        acc.allIds.push(category.id);
+        return acc;
+      }, {
+        byId: {},
+        allIds: [],
+      });
+      return categories;
     }
-
     default:
       return state;
   }

@@ -9,6 +9,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       items: [],
+      categories: []
     }
   }
   
@@ -28,8 +29,10 @@ class Home extends React.Component {
   componentWillReceiveProps(nextProps) {
     // Convert object in nextProps.items to array of items stored in component's state
     const items = nextProps.items.allIds.map(id => nextProps.items.byId[id]);
+    const categories = nextProps.categories.allIds.map(id => nextProps.categories.byId[id]);
     this.setState({
       items,
+      categories
     })
   }
 
@@ -47,12 +50,10 @@ class Home extends React.Component {
    * If category's name is invalid, correct category's name
    */
   componentDidUpdate() {
-    const categories = this.props.categories;
     const urlCategoryID = this.props.match.params.category_id;
     if (urlCategoryID) {
       const urlCategoryName = this.props.match.params.category_name;
-      const currentCategories = categories.filter(category => category.id === parseInt(urlCategoryID))
-      const currentCategory = currentCategories[0];
+      const currentCategory = this.props.categories.byId[urlCategoryID];
       if (!urlCategoryName || urlCategoryName !== currentCategory.name.replace(' ', '-')) {
         this.props.history.push(`/category/${currentCategory.id}/${currentCategory.name.replace(' ', '-')}`)
       }
@@ -75,7 +76,7 @@ class Home extends React.Component {
           <ul>
             <li><NavLink exact to="/" onClick={this.props.fetchItems}>All</NavLink></li>
             {
-              this.props.categories.map(category => (
+              this.state.categories.map(category => (
                 <li key={category.id}>
                   <NavLink
                     to={`/category/${category.id}/${category.name.replace(' ', '-')}`}

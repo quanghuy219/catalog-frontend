@@ -11,11 +11,10 @@ class Edit extends React.Component {
       name: '',
       description: '',
     };
+    this.itemID = props.match.params.item_id;
   }
 
   componentDidMount() {
-    this.itemID = this.props.match.params.item_id;
-
     // Redirect to home page if user hasnt logged in
     if (!this.props.user.token) {
       this.props.history.push('/');

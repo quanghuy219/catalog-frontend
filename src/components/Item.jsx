@@ -10,6 +10,7 @@ class Item extends React.Component {
       name: '',
       description: '',
       category: '',
+      author: '',
       user_id: 0,
       id: 0,
     };
@@ -21,14 +22,14 @@ class Item extends React.Component {
    * Redirect to homepage if item's not found
    */
   componentDidMount() {
-    const itemId = this.props.match.params.item_id
-    const item = this.props.items.byId[itemId];
+    const item = this.props.items.byId[this.itemID];
     // Find item in current state first
     // If not found, call API to fetch item
     if (item) {
       this.setState({
         ...item,
-        category: item.category.name
+        category: item.category.name,
+        author: item.user.name
       })
     } else {
       this.props.fetchItem(this.itemID)
@@ -36,6 +37,7 @@ class Item extends React.Component {
         this.setState({
           ...data.item,
           category: data.item.category.name,
+          author: data.item.user.name
         })
       ))
       .catch(() => this.props.history.push('/'));
@@ -69,13 +71,17 @@ class Item extends React.Component {
   }
 
   render() {
-    const { name, description, category } = this.state;
+    const { name, description, category, author } = this.state;
     return (
       <div>
         <h3>{name}</h3>
         <p>
-          Category:
+        <label className="item-label">Category:</label>
           {category}
+        </p>
+        <p>
+          <label className="item-label">Author:</label>
+          {author}
         </p>
 
         <p>Description:</p>

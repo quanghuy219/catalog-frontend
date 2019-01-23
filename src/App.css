@@ -73,6 +73,10 @@ pre {
   color: red;
 }
 
+.item-label {
+  margin-right: 5px;
+}
+
 @media screen and (max-width: 576px) {
   .col-header {
       font-size: 20px;
