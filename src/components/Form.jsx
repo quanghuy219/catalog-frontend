@@ -44,7 +44,7 @@ class Form extends React.Component {
       // Set default category_id as first category obtained from API
       const defaultCategoryId = nextProps.categories.allIds[0];
       this.setState({
-        category_id: nextProps.categories.byId[defaultCategoryId],
+        category_id: nextProps.categories.byId[defaultCategoryId].id,
       });
     }
   }
