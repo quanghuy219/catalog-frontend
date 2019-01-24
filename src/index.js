@@ -4,14 +4,13 @@ import './index.css';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
-import ReduxPromise from 'redux-promise';
 import thunk from 'redux-thunk';
 import App from './App';
 import reducers from './reducers';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap';
 
-let middlewares = [ReduxPromise, thunk];
+let middlewares = [thunk];
 
 if (process.env.NODE_ENV !== 'production') {
   middlewares = [...middlewares, logger];
