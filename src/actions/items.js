@@ -87,7 +87,6 @@ export function createItem(data) {
       })
       .catch((err) => {
         handleError(err, dispatch);
-        throw err;
       });
   };
 }
@@ -104,7 +103,6 @@ export function updateItem(itemID, data) {
       })
       .catch((err) => {
         handleError(err, dispatch);
-        throw err;
       });
   };
 }
@@ -120,7 +118,6 @@ export function deleteItem(itemID) {
       })
       .catch((err) => {
         handleError(err, dispatch);
-        throw err;
       });
   };
 }
