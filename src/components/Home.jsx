@@ -79,7 +79,7 @@ class Home extends React.Component {
               this.state.categories.map(category => (
                 <li key={category.id}>
                   <NavLink
-                    to={`/category/${category.id}/${category.name.replace(' ', '-')}`}
+                    to={`/category/${category.id}/${category.name.replace(/\s+/g, '-')}`}
                     onClick={() => this.showItemsByCategory(category.id)}
                   >
                     {category.name}
