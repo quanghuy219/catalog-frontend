@@ -1,6 +1,10 @@
 import CategoryApi from '../utils/api/CategoryApi';
 import { ActionTypes } from '../utils/constant';
-import { handleError, onStartingRequest, onReceivingResponse } from '../utils/helpers';
+import {
+  handleError,
+  onStartingRequest,
+  onReceivingResponse,
+} from '../utils/helpers';
 
 const categoryApi = new CategoryApi();
 
