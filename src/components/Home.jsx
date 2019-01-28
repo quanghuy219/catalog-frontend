@@ -39,7 +39,7 @@ class Home extends React.Component {
   shouldComponentUpdate() {
     const categories = this.props.categories;
     // Call componentDidUpdate when all categories are ready
-    if (categories.length === 0) {
+    if (categories.allIds.length === 0) {
       return false;
     }
     return true;
