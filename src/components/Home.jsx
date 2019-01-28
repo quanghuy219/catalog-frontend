@@ -54,8 +54,9 @@ class Home extends React.Component {
     if (urlCategoryID) {
       const urlCategoryName = this.props.match.params.category_name;
       const currentCategory = this.props.categories.byId[urlCategoryID];
-      if (!urlCategoryName || urlCategoryName !== currentCategory.name.replace(' ', '-')) {
-        this.props.history.push(`/category/${currentCategory.id}/${currentCategory.name.replace(' ', '-')}`)
+      if (!urlCategoryName || urlCategoryName !== currentCategory.name.replace(/\s+/g, '-')) {
+        this.props.history
+          .push(`/category/${currentCategory.id}/${currentCategory.name.replace(/\s+/g, '-')}`)
       }
     }
   }
