@@ -1,34 +1,13 @@
-import CategoryApi from '../utils/api/CategoryApi';
 import { ActionTypes } from '../utils/constant';
-import {
-  handleError,
-  onStartingRequest,
-  onReceivingResponse,
-} from '../utils/helpers';
+import { get } from '../utils/api';
 
-const categoryApi = new CategoryApi();
 
-function onFetchingSucess({ categories }) {
-  return {
-    type: ActionTypes.FETCH_CATEGORIES,
-    categories,
-  };
-}
+export const fetchCategories = () => ({
+  type: ActionTypes.FETCH_CATEGORIES,
+  promise: get('/categories', { offset: 0, limit: 20 }),
+});
 
-export function fetchCategories() {
-  return (dispatch) => {
-    dispatch(onStartingRequest());
-    return categoryApi.get('/api/categories')
-      .then((res) => {
-        dispatch(onReceivingResponse());
-        dispatch(onFetchingSucess(res.data));
-        return res.data;
-      })
-      .catch((err) => {
-        handleError(err, dispatch);
-        throw err;
-      });
-  };
-}
-
-export default fetchCategories;
+export const fetchCategory = categoryId => ({
+  type: ActionTypes.FETCH_CATEGORY,
+  promise: get(`/categories/${categoryId}`),
+});

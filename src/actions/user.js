@@ -1,46 +1,17 @@
-import UserApi from '../utils/api/UserApi';
 import { ActionTypes } from '../utils/constant';
 import {
-  handleError,
-  onStartingRequest,
-  onReceivingResponse,
-  showSuccessMessage,
-} from '../utils/helpers';
+  get, post,
+} from '../utils/api';
 
-const userApi = new UserApi();
+export const login = (username, password) => ({
+  type: ActionTypes.LOGIN,
+  promise: post('/login', { username, password }, {}, false),
+});
 
-function onLoginSuccess(name, id, token) {
-  return {
-    type: ActionTypes.LOGIN,
-    name,
-    id,
-    token,
-  };
-}
-
-export function login(code) {
-  return (dispatch) => {
-    dispatch(onStartingRequest());
-    return userApi.login('/api/login', code)
-      .then((json) => {
-        dispatch(onReceivingResponse());
-        const user = {
-          name: json.data.user.name,
-          id: json.data.user.id,
-        };
-        const { token } = json.data;
-        localStorage.setItem('user', JSON.stringify(user));
-        localStorage.setItem('token', token);
-        dispatch(onLoginSuccess(user.name, user.id, token));
-        dispatch(showSuccessMessage(json.message));
-        return user;
-      })
-      .catch((err) => {
-        handleError(err, dispatch);
-        throw err;
-      });
-  };
-}
+export const fetchUser = () => ({
+  type: ActionTypes.FETCH_USER,
+  promise: get('/me'),
+});
 
 export function logout() {
   return (dispatch) => {

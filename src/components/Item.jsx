@@ -1,61 +1,57 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { fetchCategory } from '../actions/categories';
 import { fetchItem, deleteItem } from '../actions/items';
 
-class Item extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      description: '',
-      category: '',
-      author: '',
-      user_id: 0,
-      id: 0,
-    };
-    this.itemID = props.match.params.item_id;
-  }
+function Item({
+  user,
+  fetchCategory,
+  fetchItem,
+  deleteItem,
+}) {
+  const [item, setItem] = useState({});
+  const [category, setCategory] = useState({});
 
-  /**
-   * Fetching item's data
-   * Redirect to homepage if item's not found
-   */
-  componentDidMount() {
-    const item = this.props.items.byId[this.itemID];
-    // Find item in current state first
-    // If not found, call API to fetch item
-    if (item) {
-      this.setState({
-        ...item,
-        category: item.category.name,
-        author: item.user.name
-      })
-    } else {
-      this.props.fetchItem(this.itemID)
-      .then(data => (
-        this.setState({
-          ...data.item,
-          category: data.item.category.name,
-          author: data.item.user.name
-        })
-      ))
-      .catch(() => this.props.history.push('/'));
+  const params = useParams();
+  const history = useHistory();
+  const { categoryId, itemId } = params;
+
+  const getItem = async () => {
+    const { success, res } = await fetchItem(categoryId, itemId);
+    if (!success) {
+      history.push('/');
     }
-  }
+    setItem(res);
+  };
 
-  delete = () => {
-    this.props.deleteItem(this.itemID)
-      .then(() => this.props.history.push('/'));
-  }
+  const getCategory = async () => {
+    const { success, res } = await fetchCategory(categoryId);
+    if (!success) {
+      history.push('/');
+    }
+    setCategory(res);
+  };
 
-  renderEditButton = () => {
+  useEffect(() => {
+    getItem();
+    getCategory();
+  }, [categoryId, itemId]);
+
+  const renderEditButton = () => {
     let EditButtons = '';
     // Show edit and delete buttons if current user is item's owner
-    if (this.state.user_id === this.props.user.id) {
+    if (item.user_id === user.id) {
       EditButtons = (
         <div className="edit-group">
-          <Link className="btn-edit" to={`/item/${this.state.id}/edit`}>Edit</Link>
+          <Link
+            className="btn-edit"
+            to={`/category/${category.id}/item/${item.id}/edit`}
+          >
+            Edit
+          </Link>
           <Link
             className="btn-edit"
             to="#/"
@@ -68,73 +64,77 @@ class Item extends React.Component {
       );
     }
     return EditButtons;
-  }
+  };
 
-  render() {
-    const { name, description, category, author } = this.state;
-    return (
-      <div>
-        <h3>{name}</h3>
-        <p>
-        <label className="item-label">Category:</label>
-          {category}
-        </p>
-        <p>
-          <label className="item-label">Author:</label>
-          {author}
-        </p>
+  const delItem = async () => {
+    const { success } = await deleteItem(categoryId, itemId);
+    if (success) {
+      history.push(`/category/${categoryId}`);
+    }
+  };
 
-        <p>Description:</p>
-        <pre>{description}</pre>
-        { this.renderEditButton() }
+  return (
+    <div>
+      <Breadcrumb>
+        <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+        <BreadcrumbItem>
+          <Link to={`/category/${category.id}`}>{category.name}</Link>
+        </BreadcrumbItem>
+      </Breadcrumb>
 
-        {/* Modal */}
-        <div
-          className="modal fade"
-          id="confirmDelete"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-body">
-                Do you really want to delete your item?
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.delete}
-                  data-dismiss="modal"
-                >
-                  Delete
-                </button>
-              </div>
+      <h3>{item.name}</h3>
+
+      <p>
+        Price:
+        {' '}
+        {item.price}$
+      </p>
+
+      <p>Description:</p>
+      <pre>{item.description}</pre>
+      { renderEditButton() }
+
+      <div
+        className="modal fade"
+        id="confirmDelete"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-body">
+              Do you really want to delete your item?
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={delItem}
+                data-dismiss="modal"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 const mapStateToProps = state => (
   {
     items: state.items,
+    categories: state.categories,
     user: state.user,
   }
 );
 
-const mapDispatchToProps = dispatch => (
-  {
-    fetchItem: itemID => dispatch(fetchItem(itemID)),
-    deleteItem: itemID => dispatch(deleteItem(itemID)),
-  }
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(Item);
+export default connect(mapStateToProps, {
+  fetchItem, deleteItem, fetchCategory,
+})(Item);

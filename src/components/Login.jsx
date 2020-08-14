@@ -1,43 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import GoogleLogin from 'react-google-login';
+import { withRouter, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {
+  Button, Form, FormGroup, Label, Input,
+} from 'reactstrap';
 import { login } from '../actions/user';
 
-class Login extends React.Component {
-  onSigninSuccess = (code) => {
-    this.props.login(code)
-      .then(() => this.props.history.push('/'));
-  }
 
-  onSigninFailure = () => {
-    toast.error('Something went wrong. Please try again later');
-  }
+function Login({ login }) {
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const history = useHistory();
 
-  render() {
-    return (
-      <div>
-        <h3>Sign in with Google Account</h3>
-        <GoogleLogin
-          className="g-signin"
-          scope="openid email profile"
-          clientId="631390474610-5kpt48ufa9uh64g364asa6f716739p0d.apps.googleusercontent.com"
-          accessType="offline"
-          responseType="code"
-          prompt="select_account"
-          onSuccess={this.onSigninSuccess}
-          onFailure={this.onSigninFailure}
+  const submit = async (e) => {
+    e.preventDefault();
+
+    const { success } = await login(username, password);
+    if (success) {
+      history.push('/');
+    }
+  };
+
+  return (
+    <Form style={{ width: '300px' }} onSubmit={submit}>
+      <FormGroup>
+        <Label for="username">Username</Label>
+        <Input
+          type="text"
+          name="username"
+          id="username"
+          required
+          onChange={e => setUsername(e.target.value)}
         />
-        <div id="result" />
-      </div>
-    );
-  }
+      </FormGroup>
+      <FormGroup>
+        <Label for="password">Password</Label>
+        <Input
+          type="password"
+          name="password"
+          id="password"
+          required
+          onChange={e => setPassword(e.target.value)}
+        />
+      </FormGroup>
+      <Button color="primary">Submit</Button>
+    </Form>
+  );
 }
 
-const mapDispatchToProps = dispatch => (
-  {
-    login: code => dispatch(login(code)),
-  }
-);
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+};
 
-export default connect(null, mapDispatchToProps)(Login);
+export default withRouter(connect(null, { login })(Login));

@@ -6,6 +6,6 @@ const prod = {
   API_URL: 'https://catalog-backend.herokuapp.com',
 };
 
-const CONFIG = (process.env.NODE_ENV === 'production') ? prod : dev;
+const config = (process.env.NODE_ENV === 'production') ? prod : dev;
 
-export default CONFIG;
+export default config;

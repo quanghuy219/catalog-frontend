@@ -10,11 +10,11 @@ class Navbar extends React.Component {
     this.onClickLogout = this.onClickLogout.bind(this);
   }
 
-  onClickLogout = () => {
+  onClickLogout() {
     this.props.logout();
   }
 
-  renderNavbar = () => {
+  renderNavbar() {
     let NavbarContent;
     // Show user's name, and logout button on navbar when user has logged in
     if (this.props.user.name) {
@@ -48,7 +48,7 @@ class Navbar extends React.Component {
   render() {
     return (
       <nav className="navbar navbar-expand-sm navbar-light bg-light">
-        <Link className="navbar-brand" to="/" onClick={this.props.fetchItems}>Catalog</Link>
+        <Link className="navbar-brand" to="/" >Catalog</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -79,7 +79,6 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => (
   {
     logout: () => dispatch(logout()),
-    fetchItems: () => dispatch(fetchItems())
   }
 );
 

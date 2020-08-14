@@ -19,6 +19,7 @@
             }
         }],
         "max-len": [2, 100],
-        "class-methods-use-this": [0]
+        "class-methods-use-this": [0],
+        "import/no-named-as-default": 0
     }
 }

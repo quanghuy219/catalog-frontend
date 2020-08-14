@@ -1,123 +1,30 @@
-import ItemApi from '../utils/api/ItemApi';
 import { ActionTypes } from '../utils/constant';
 import {
-  handleError,
-  onStartingRequest,
-  onReceivingResponse,
-  showSuccessMessage,
-} from '../utils/helpers';
+  get, post, put, del,
+} from '../utils/api';
 
-const itemApi = new ItemApi();
 
-function onSuccessFetchingItems({ items }) {
-  return {
-    type: ActionTypes.FETCH_ITEMS,
-    items,
-  };
-}
+export const fetchItemsByCategory = categoryId => ({
+  type: ActionTypes.FETCH_ITEMS,
+  promise: get(`/categories/${categoryId}/items`, { offset: 0, limit: 20 }),
+});
 
-function onSuccessCreatingItem({ item }) {
-  return {
-    type: ActionTypes.CREATE_ITEM,
-    item,
-  };
-}
+export const fetchItem = (categoryId, itemId) => ({
+  type: ActionTypes.FETCH_ITEM,
+  promise: get(`/categories/${categoryId}/items/${itemId}`),
+});
 
-function onSuccessUpdatingItem({ item }) {
-  return {
-    type: ActionTypes.UPDATE_ITEM,
-    item,
-  };
-}
+export const createItem = (categoryId, data) => ({
+  type: ActionTypes.CREATE_ITEM,
+  promise: post(`/categories/${categoryId}/items`, data),
+});
 
-export function fetchItems() {
-  return (dispatch) => {
-    dispatch(onStartingRequest());
-    return itemApi.get('/api/items')
-      .then((res) => {
-        dispatch(onReceivingResponse());
-        dispatch(onSuccessFetchingItems(res.data));
-      })
-      .catch((err) => {
-        handleError(err, dispatch);
-        throw err;
-      });
-  };
-}
+export const updateItem = (categoryId, itemId, data) => ({
+  type: ActionTypes.CREATE_ITEM,
+  promise: put(`/categories/${categoryId}/items/${itemId}`, data),
+});
 
-export function fetchItemsByCategory(categoryID) {
-  return (dispatch) => {
-    dispatch(onStartingRequest());
-    return itemApi.get(`/api/categories/${categoryID}/items`)
-      .then((res) => {
-        dispatch(onReceivingResponse());
-        dispatch(onSuccessFetchingItems(res.data));
-      })
-      .catch((err) => {
-        handleError(err, dispatch);
-        throw err;
-      });
-  };
-}
-
-export function fetchItem(itemId) {
-  return (dispatch) => {
-    dispatch(onStartingRequest());
-    return itemApi.get(`/api/items/${itemId}`)
-      .then((res) => {
-        dispatch(onReceivingResponse());
-        return res.data;
-      })
-      .catch((err) => {
-        handleError(err, dispatch);
-        throw err;
-      });
-  };
-}
-
-export function createItem(data) {
-  return (dispatch) => {
-    dispatch(onStartingRequest());
-    return itemApi.post(data)
-      .then((res) => {
-        dispatch(onReceivingResponse());
-        dispatch(onSuccessCreatingItem(res.data));
-        dispatch(showSuccessMessage(res.message));
-        return res.data;
-      })
-      .catch((err) => {
-        handleError(err, dispatch);
-      });
-  };
-}
-
-export function updateItem(itemID, data) {
-  return (dispatch) => {
-    dispatch(onStartingRequest());
-    return itemApi.put(itemID, data)
-      .then((res) => {
-        dispatch(onReceivingResponse());
-        dispatch(onSuccessUpdatingItem(res.data));
-        dispatch(showSuccessMessage(res.message));
-        return res.data;
-      })
-      .catch((err) => {
-        handleError(err, dispatch);
-      });
-  };
-}
-
-export function deleteItem(itemID) {
-  return (dispatch) => {
-    dispatch(onStartingRequest());
-    return itemApi.delete(itemID)
-      .then((res) => {
-        dispatch(onReceivingResponse());
-        dispatch(showSuccessMessage(res.message));
-        return res.data;
-      })
-      .catch((err) => {
-        handleError(err, dispatch);
-      });
-  };
-}
+export const deleteItem = (categoryId, itemId) => ({
+  type: ActionTypes.DELETE_ITEM,
+  promise: del(`/categories/${categoryId}/items/${itemId}`),
+});
