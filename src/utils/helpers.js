@@ -63,3 +63,19 @@ export function handleError(err, dispatch) {
     });
   }
 }
+
+export function getErrorMessage(response) {
+  const { message } = response;
+  let errMessage = 'Something went wrong!';
+  if (typeof message === 'string') {
+    errMessage = message;
+  } else if (Array.isArray(message)) {
+    [errMessage] = message;
+  } else if (Object.values(message)) {
+    [errMessage] = Object.values(message);
+    if (Array.isArray(errMessage)) {
+      [errMessage] = errMessage;
+    }
+  }
+  return errMessage;
+}

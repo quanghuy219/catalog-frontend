@@ -1,43 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, withRouter, useHistory } from 'react-router-dom';
+import { withRouter, useHistory } from 'react-router-dom';
 import {
   Button, Form, FormGroup, Label, Input,
 } from 'reactstrap';
-import { login } from '../actions/user';
+import { register } from '../actions/user';
 import { showErrorMessage } from '../actions/notifications';
 import { getErrorMessage } from '../utils/helpers';
 
 
-function Login({
+function Signup({
   token,
-  login,
+  register,
   showErrorMessage,
 }) {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
+  const [name, setName] = useState();
   const history = useHistory();
+
+  useEffect(() => {
+    // Redirect to home when signup is successful
+    if (token) {
+      history.push('/');
+    }
+  });
 
   const submit = async (e) => {
     e.preventDefault();
 
-    const { success, res } = await login(username, password);
+    const { success, res } = await register({
+      username, password, email, name,
+    });
     if (!success) {
       const msg = getErrorMessage(res);
       showErrorMessage(msg);
     }
   };
 
-  useEffect(() => {
-    // Redirect to home when login is successful
-    if (token) {
-      history.push('/');
-    }
-  });
-
   return (
     <>
+      <h2>Register</h2>
       <Form style={{ width: '300px' }} onSubmit={submit}>
         <FormGroup>
           <Label for="username">Username</Label>
@@ -59,16 +64,32 @@ function Login({
             onChange={e => setPassword(e.target.value)}
           />
         </FormGroup>
+        <FormGroup>
+          <Label for="email">Email</Label>
+          <Input
+            type="email"
+            name="email"
+            id="email"
+            required
+            onChange={e => setEmail(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label for="name">Name</Label>
+          <Input
+            type="text"
+            name="name"
+            id="name"
+            required
+            onChange={e => setName(e.target.value)}
+          />
+        </FormGroup>
+
         <Button color="primary">Submit</Button>
       </Form>
-      <Link to="/signup">Sign up</Link>
     </>
   );
 }
-
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-};
 
 const mapStateToProps = state => (
   {
@@ -76,4 +97,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { login, showErrorMessage })(Login));
+export default withRouter(connect(mapStateToProps, { register, showErrorMessage })(Signup));

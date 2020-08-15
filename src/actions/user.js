@@ -8,6 +8,11 @@ export const login = (username, password) => ({
   promise: post('/login', { username, password }, {}, false),
 });
 
+export const register = data => ({
+  type: ActionTypes.SIGNUP,
+  promise: post('/registrations', data, null, false),
+});
+
 export const fetchUser = () => ({
   type: ActionTypes.FETCH_USER,
   promise: get('/me'),

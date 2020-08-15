@@ -4,12 +4,15 @@ import { useParams, useHistory } from 'react-router-dom';
 import Form from './Form';
 import { fetchCategory } from '../actions/categories';
 import { fetchItem, updateItem } from '../actions/items';
+import { showErrorMessage } from '../actions/notifications';
+import { getErrorMessage } from '../utils/helpers';
 
 function EditPage({
   user,
   fetchItem,
   fetchCategory,
-  updateItem
+  updateItem,
+  showErrorMessage,
 }) {
   const [item, setItem] = useState({});
   const [category, setCategory] = useState({});
@@ -46,6 +49,9 @@ function EditPage({
     const { success, res } = await updateItem(categoryId, itemId, data);
     if (success) {
       history.push(`/category/${categoryId}/item/${itemId}`);
+    } else {
+      const msg = getErrorMessage(res);
+      showErrorMessage(msg);
     }
   };
 
@@ -64,5 +70,5 @@ const mapStateToProps = state => (
 );
 
 export default connect(mapStateToProps, {
-  fetchItem, fetchCategory, updateItem,
+  fetchItem, fetchCategory, updateItem, showErrorMessage,
 })(EditPage);

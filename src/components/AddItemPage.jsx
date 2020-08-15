@@ -4,11 +4,14 @@ import { useParams, useHistory } from 'react-router-dom';
 import Form from './Form';
 import { fetchCategory } from '../actions/categories';
 import { createItem } from '../actions/items';
+import { showErrorMessage } from '../actions/notifications';
+import { getErrorMessage } from '../utils/helpers';
 
 function AddItemPage({
   user,
   fetchCategory,
   createItem,
+  showErrorMessage,
 }) {
   const [category, setCategory] = useState({});
   const item = {};
@@ -36,12 +39,15 @@ function AddItemPage({
     const { success, res } = await createItem(categoryId, paramsData);
     if (success) {
       history.push(`/category/${categoryId}/item/${res.id}`);
+    } else {
+      const msg = getErrorMessage(res);
+      showErrorMessage(msg);
     }
   };
 
   return (
     <div>
-      <h2>Edit Item</h2>
+      <h2>New Item</h2>
       <Form item={item} category={category} submit={submit} />
     </div>
   );
@@ -54,5 +60,5 @@ const mapStateToProps = state => (
 );
 
 export default connect(mapStateToProps, {
-  fetchCategory, createItem,
+  fetchCategory, createItem, showErrorMessage,
 })(AddItemPage);

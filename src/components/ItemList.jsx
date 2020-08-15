@@ -46,9 +46,7 @@ function ItemList({
         <CategoryList />
       </div>
       <div className="col-md-8 col-sm-8 col-7">
-        {
-          user.token && <Link to={`/category/${categoryId}/new-item`}>Add Item</Link>
-        }
+        <Link to={`/category/${categoryId}/new-item`}>Add Item</Link>
         <h4>{category.description}</h4>
         <ul>
           {

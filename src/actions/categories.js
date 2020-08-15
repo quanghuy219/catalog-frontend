@@ -1,5 +1,5 @@
 import { ActionTypes } from '../utils/constant';
-import { get } from '../utils/api';
+import { get, post } from '../utils/api';
 
 
 export const fetchCategories = () => ({
@@ -10,4 +10,9 @@ export const fetchCategories = () => ({
 export const fetchCategory = categoryId => ({
   type: ActionTypes.FETCH_CATEGORY,
   promise: get(`/categories/${categoryId}`),
+});
+
+export const createCategory = data => ({
+  type: ActionTypes.CREATE_CATEGORY,
+  promise: post('/categories', data),
 });

@@ -5,6 +5,7 @@ const authMiddleware = () => next => async (action) => {
   const { type, payload } = action;
   switch (type) {
     case ActionTypes.LOGIN_SUCCESS:
+    case ActionTypes.SIGNUP_SUCCESS:
       localStorage.setItem('catalog.access_token', payload.access_token);
       break;
     case ActionTypes.FETCH_USER_SUCCESS:

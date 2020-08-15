@@ -12,6 +12,12 @@ const userReducer = function setUserAction(state = initialState, action) {
         token: action.payload.access_token,
       };
     }
+    case ActionTypes.SIGNUP_SUCCESS: {
+      return {
+        ...state,
+        token: action.payload.access_token,
+      };
+    }
     case ActionTypes.FETCH_USER_SUCCESS: {
       return {
         ...state,

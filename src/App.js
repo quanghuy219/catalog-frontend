@@ -9,8 +9,9 @@ import {
 } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
-import Form from './components/Form';
+import AddCategoryPage from './components/AddCategoryPage';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import Item from './components/Item';
 import Notification from './components/Notification';
 import EditPage from './components/EditItemPage';
@@ -36,6 +37,7 @@ function App({
       return [
         <Route key="home" exact path="/"><Redirect to="/login" /></Route>,
         <Route key="login" exact path="/login" component={Login} />,
+        <Route key="signup" exact path="/signup" component={Signup} />,
       ];
     }
 
@@ -43,8 +45,13 @@ function App({
       <Route key="home" exact path="/" component={Home} />,
       <Route key="categoryDetail" exact path="/category/:categoryId" component={ItemList} />,
       <Route key="itemDetail" exact path="/category/:categoryId/item/:itemId" component={Item} />,
-      <Route key="createItem" exact path="/new-item" component={Form} />,
-      <Route key="editItem" exact path="/category/:categoryId/item/:itemId/edit" component={EditPage} />,
+      <Route key="createCategory" exact path="/new-category" component={AddCategoryPage} />,
+      <Route
+        key="editItem"
+        exact
+        path="/category/:categoryId/item/:itemId/edit"
+        component={EditPage}
+      />,
       <Route key="addItem" exact path="/category/:categoryId/new-item" component={AddItemPage} />,
     ];
   };
