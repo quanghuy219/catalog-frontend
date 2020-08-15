@@ -4,9 +4,9 @@ import {
 } from '../utils/api';
 
 
-export const fetchItemsByCategory = categoryId => ({
+export const fetchItemsByCategory = (categoryId, paginationParams) => ({
   type: ActionTypes.FETCH_ITEMS,
-  promise: get(`/categories/${categoryId}/items`, { offset: 0, limit: 20 }),
+  promise: get(`/categories/${categoryId}/items`, paginationParams),
 });
 
 export const fetchItem = (categoryId, itemId) => ({

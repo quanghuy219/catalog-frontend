@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 import Form from './Form';
@@ -39,6 +40,11 @@ function AddItemPage({
     </div>
   );
 }
+
+AddItemPage.propTypes = {
+  createItem: PropTypes.func.isRequired,
+  showErrorMessage: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => (
   {

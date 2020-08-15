@@ -93,8 +93,8 @@ function Form({
 }
 
 Form.propTypes = {
-  item: PropTypes.object,
-  category: PropTypes.object,
+  item: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired,
   submit: PropTypes.func.isRequired,
 };
 

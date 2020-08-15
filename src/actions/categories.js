@@ -2,9 +2,9 @@ import { ActionTypes } from '../utils/constant';
 import { get, post } from '../utils/api';
 
 
-export const fetchCategories = () => ({
+export const fetchCategories = params => ({
   type: ActionTypes.FETCH_CATEGORIES,
-  promise: get('/categories', { offset: 0, limit: 20 }),
+  promise: get('/categories', params),
 });
 
 export const fetchCategory = categoryId => ({

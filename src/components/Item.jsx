@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
@@ -102,6 +103,10 @@ function Item({
     </div>
   );
 }
+
+Item.propTypes = {
+  deleteItem: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => (
   {

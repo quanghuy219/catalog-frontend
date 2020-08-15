@@ -1,8 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchItemsByCategory } from '../actions/items';
-import { fetchCategories } from '../actions/categories';
 import CategoryList from './CategoryList';
 
 function Home() {
@@ -17,15 +14,4 @@ function Home() {
   );
 }
 
-const mapStateToProps = state => (
-  {
-    items: state.items,
-    categories: state.categories,
-    user: state.user,
-  }
-);
-
-export default connect(mapStateToProps, {
-  fetchCategories,
-  fetchItemsByCategory,
-})(Home);
+export default Home;

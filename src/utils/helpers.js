@@ -79,3 +79,14 @@ export function getErrorMessage(response) {
   }
   return errMessage;
 }
+
+/**
+ * Generate limit and offset value for pagination
+ * @param {*} page Page start with 0
+ * @param {*} itemsPerPage Total items allowed in a page
+ */
+export function genPaginationParams(page, itemsPerPage) {
+  const limit = itemsPerPage;
+  const offset = page * itemsPerPage;
+  return { offset, limit };
+}
