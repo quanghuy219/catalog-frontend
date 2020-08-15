@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, useHistory } from 'react-router-dom';
 import {
@@ -97,4 +96,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { register, showErrorMessage })(Signup));
+export default connect(mapStateToProps, { register, showErrorMessage })(Signup);

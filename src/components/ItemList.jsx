@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchItemsByCategory } from '../actions/items';
 import CategoryList from './CategoryList';
 import { fetchCategory } from '../actions/categories';
+import useCategory from '../hooks/useCategory';
 
 function ItemList({
   items,
-  user,
-  fetchCategory,
   fetchItemsByCategory,
 }) {
-  const [category, setCategory] = useState({});
   const params = useParams();
   const history = useHistory();
   const allItems = items.allIds.map(id => items.byId[id]);
-
-
   const { categoryId } = params;
+
+  const category = useCategory(categoryId);
 
   const getItems = async () => {
     const { success } = await fetchItemsByCategory(categoryId);
@@ -26,17 +24,8 @@ function ItemList({
     }
   };
 
-  const getCategory = async () => {
-    const { success, res } = await fetchCategory(categoryId);
-    if (!success) {
-      history.push('/');
-    }
-    setCategory(res);
-  };
-
   useEffect(() => {
     getItems();
-    getCategory();
   }, [categoryId]);
 
   return (
@@ -66,7 +55,6 @@ const mapStateToProps = state => (
   {
     items: state.items,
     categories: state.categories,
-    user: state.user,
   }
 );
 

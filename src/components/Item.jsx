@@ -1,43 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { fetchCategory } from '../actions/categories';
-import { fetchItem, deleteItem } from '../actions/items';
+import { deleteItem } from '../actions/items';
+import useCategory from '../hooks/useCategory';
+import useItem from '../hooks/useItem';
 
 function Item({
   user,
-  fetchCategory,
-  fetchItem,
   deleteItem,
 }) {
-  const [item, setItem] = useState({});
-  const [category, setCategory] = useState({});
-
   const params = useParams();
   const history = useHistory();
   const { categoryId, itemId } = params;
-
-  const getItem = async () => {
-    const { success, res } = await fetchItem(categoryId, itemId);
-    if (!success) {
-      history.push('/');
-    }
-    setItem(res);
-  };
-
-  const getCategory = async () => {
-    const { success, res } = await fetchCategory(categoryId);
-    if (!success) {
-      history.push('/');
-    }
-    setCategory(res);
-  };
-
-  useEffect(() => {
-    getItem();
-    getCategory();
-  }, [categoryId, itemId]);
+  const category = useCategory(categoryId);
+  const item = useItem(categoryId, itemId);
 
   const renderEditButton = () => {
     let EditButtons = '';
@@ -135,5 +112,5 @@ const mapStateToProps = state => (
 );
 
 export default connect(mapStateToProps, {
-  fetchItem, deleteItem, fetchCategory,
+  deleteItem,
 })(Item);
